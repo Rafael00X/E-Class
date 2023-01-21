@@ -1,0 +1,36 @@
+.button-highlight {
+  background-color: olivedrab;
+  color: white;
+}
+
+/****** Light Theme ******/
+
+.background-light {
+  background-color: #eee;
+}
+
+.button-light {
+  background-color: #fff;
+  color: #111;
+}
+
+.card-light {
+  background-color: #fff;
+  color: #111;
+}
+
+/****** Dark Theme ******/
+
+.background-dark {
+  background-color: #111;
+}
+
+.button-dark {
+  background-color: #222;
+  color: #eee;
+}
+
+.card-dark {
+  background-color: #222;
+  color: #eee;
+}
