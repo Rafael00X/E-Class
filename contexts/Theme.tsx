@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 type Theme = {
   name: string;
@@ -32,11 +32,22 @@ export const darkTheme = {
 
 export const ThemeContext = createContext<ThemeContextValue | null>(null);
 
+const THEME_STORAGE_KEY = "theme-storage-key";
+
 const ThemeProvider = (props: ThemeProviderProps) => {
   const [theme, setTheme] = useState<Theme>(lightTheme);
   const swapTheme = () => {
-    theme.name === "light" ? setTheme(darkTheme) : setTheme(lightTheme);
+    const newTheme = theme.name === "light" ? darkTheme : lightTheme;
+    setTheme(newTheme);
+    if (typeof window !== undefined)
+      localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(newTheme));
   };
+
+  useEffect(() => {
+    const savedThemeString = localStorage.getItem(THEME_STORAGE_KEY);
+    if (savedThemeString) setTheme(JSON.parse(savedThemeString));
+    else localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(theme));
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ theme, swapTheme }}>
