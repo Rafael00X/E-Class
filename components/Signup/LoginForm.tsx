@@ -1,7 +1,6 @@
 import { useState } from "react";
 import InputField from "../UI/InputField";
-
-const URL = "http://localhost:3000/api/login";
+import { loginUser } from "@/fetch";
 
 const LoginForm = () => {
   const initialState = {
@@ -17,20 +16,19 @@ const LoginForm = () => {
   };
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    fetch(URL, {
-      method: "POST",
-      body: JSON.stringify({ email: values.email, password: values.password }),
-    })
-      .then((res) => res.json())
+    loginUser(values.email, values.password)
       .then((data) => {
         console.log(data);
+        // Save to context and local-storage / cookie
       })
       .catch((err) => {
         console.log(err);
-        setErrors({
-          email: "Invalid credentials",
-          password: "Invalid credentials",
-        });
+        if (err.message === "Invalid credentials") {
+          setErrors({
+            email: "Invalid credentials",
+            password: "Invalid credentials",
+          });
+        }
       });
   };
   return (
