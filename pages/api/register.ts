@@ -1,25 +1,27 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import jwt from "jsonwebtoken";
+import { createUser } from "@/prisma";
+import { encodeJwt } from "../../utilities/jwtHelper";
+import { User } from "@prisma/client";
 
 type Data = {
-  token: string;
+  token?: string;
+  user?: User;
+  message?: string;
 };
 
-const KEY = "ahdsahdkadadkadksadadkhasdads";
-
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  if (!req.body) {
-    res.statusCode = 404;
-    res.end("Error");
-    return;
-  }
   const { name, email, password } = req.body;
-  // Check if email exists in db, then create new user
-  // Then fetch name, id of user and put in jwt
-  const userDetails = { name, email, password };
-  const token = jwt.sign(userDetails, KEY);
-  res.status(200).json({ token });
+  if (!name || !email || !password)
+    return res.status(400).json({ message: "Invalid request" });
+
+  try {
+    const user = await createUser(name, email, password);
+    const token = encodeJwt(user);
+    res.status(201).json({ token, user });
+  } catch (error) {
+    res.status(409).json({ message: "User already exists" });
+  }
 }

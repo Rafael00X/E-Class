@@ -1,25 +1,26 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import jwt from "jsonwebtoken";
+import { getUserByEmail } from "@/prisma";
+import { encodeJwt } from "../../utilities/jwtHelper";
+import { User } from "@prisma/client";
 
 type Data = {
-  token: string;
+  token?: string;
+  user?: User;
+  message?: string;
 };
 
-const KEY = "ahdsahdkadadkadksadadkhasdads";
-
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  if (!req.body) {
-    res.statusCode = 404;
-    res.end("Error");
-    return;
-  }
   const { email, password } = req.body;
-  // Check if user exists in db
-  // Then fetch name, id of user and put in jwt
-  const userDetails = { email, password };
-  const token = jwt.sign(userDetails, KEY);
-  res.status(200).json({ token });
+  if (!email || !password)
+    return res.status(400).json({ message: "Invalid request" });
+
+  const user = await getUserByEmail(email);
+  if (!user) return res.status(404).json({ message: "Email not registered" });
+  if (user.password !== password)
+    return res.status(401).json({ message: "Invalid credentials" });
+  const token = encodeJwt(user);
+  res.status(200).json({ token, user });
 }
