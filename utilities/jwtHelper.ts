@@ -9,7 +9,7 @@ export const encodeJwt = (user: User) => {
 };
 
 export const decodeJwt = (token: string) => {
-  const decodedToken: any = jwt.verify(token, KEY);
+  const decodedToken = jwt.verify(token, KEY) as jwt.JwtPayload;
   const user: User = {
     id: decodedToken.id,
     username: decodedToken.username,
