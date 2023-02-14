@@ -1,5 +1,5 @@
 export const loginUser = async (email: string, password: string) => {
-  const res = await fetch("/api/login", {
+  const res = await fetch("/api/auth?task=login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,7 +18,7 @@ export const registerUser = async (
   email: string,
   password: string
 ) => {
-  const res = await fetch("/api/register", {
+  const res = await fetch("/api/auth?task=register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -26,6 +26,19 @@ export const registerUser = async (
     body: JSON.stringify({ name, email, password }),
   });
   if (res.status === 409) throw new Error("Email already registered");
+  if (!res.ok) throw new Error("Server error");
+  const data = await res.json();
+  return data;
+};
+
+export const validateUser = async () => {
+  const res = await fetch("/api/auth?task=validate", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (res.status === 400) throw new Error("Cookie not found");
   if (!res.ok) throw new Error("Server error");
   const data = await res.json();
   return data;

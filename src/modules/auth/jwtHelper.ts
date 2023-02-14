@@ -1,15 +1,15 @@
 import { User } from "@prisma/client";
-import jwt from "jsonwebtoken";
+import { sign, verify, JwtPayload } from "jsonwebtoken";
 
-const KEY = "ahdsahdkadadkadksadadkhasdads";
+const secretKey = process.env.JWT_SECRET as string;
 
 export const encodeJwt = (user: User) => {
-  const token = jwt.sign(user, KEY);
+  const token = sign(user, secretKey);
   return token;
 };
 
 export const decodeJwt = (token: string) => {
-  const decodedToken = jwt.verify(token, KEY) as jwt.JwtPayload;
+  const decodedToken = verify(token, secretKey) as JwtPayload;
   const user: User = {
     id: decodedToken.id,
     username: decodedToken.username,
