@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { createUser } from "@/prisma";
-import { encodeJwt } from "../../utilities/jwtHelper";
+import { createUser } from "@/modules/database";
+import { encodeJwt } from "@/modules/auth";
 import { User } from "@prisma/client";
 
 type Data = {

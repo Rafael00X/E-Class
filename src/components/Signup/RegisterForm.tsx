@@ -1,11 +1,13 @@
 import { useState } from "react";
 import InputField from "../UI/InputField";
-import { loginUser } from "@/fetch";
+import { registerUser } from "@/modules/fetch";
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const initialState = {
+    name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   };
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
@@ -16,23 +18,42 @@ const LoginForm = () => {
   };
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    loginUser(values.email, values.password)
+    if (values.password !== values.confirmPassword) {
+      setErrors({
+        name: "",
+        email: "",
+        password: "Passwords must match",
+        confirmPassword: "Passwords must match",
+      });
+      return;
+    }
+    registerUser(values.name, values.email, values.password)
       .then((data) => {
         console.log(data);
         // Save to context and local-storage / cookie
       })
       .catch((err) => {
         console.log(err);
-        if (err.message === "Invalid credentials") {
+        if (err.message === "Email already registered") {
           setErrors({
-            email: "Invalid credentials",
-            password: "Invalid credentials",
+            name: "",
+            email: "Email already registered",
+            password: "",
+            confirmPassword: "",
           });
         }
       });
   };
   return (
     <form onSubmit={onSubmit}>
+      <InputField
+        label="Name"
+        name="name"
+        type="text"
+        value={values.name}
+        error={errors.name}
+        onChange={onChange}
+      />
       <InputField
         label="Email"
         name="email"
@@ -49,9 +70,17 @@ const LoginForm = () => {
         error={errors.password}
         onChange={onChange}
       />
+      <InputField
+        label="Confirm Password"
+        name="confirmPassword"
+        type="password"
+        value={values.confirmPassword}
+        error={errors.confirmPassword}
+        onChange={onChange}
+      />
       <input type="submit" value="Submit" />
     </form>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

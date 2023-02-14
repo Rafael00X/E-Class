@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma": "dotenv -e .env.local -- npx prisma generate"
+    "prisma": "dotenv -e .env.local -- npx prisma generate --schema=./src/modules/database/schema.prisma"
   },
   "dependencies": {
     "@next/font": "13.1.4",

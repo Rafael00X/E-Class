@@ -1,6 +1,6 @@
-import styles from "./Card.module.css";
 import { ThemeContext } from "@/contexts/Theme";
 import { useContext } from "react";
+import styles from "./Card.module.css";
 
 type CardProps = {
   children: React.ReactNode;
