@@ -1,7 +1,5 @@
-import { API_URL } from "@/config";
-
 export const loginUser = async (email: string, password: string) => {
-  const res = await fetch(API_URL + "/login", {
+  const res = await fetch("/api/login", {
     method: "POST",
     body: JSON.stringify({ email, password }),
   });
@@ -16,7 +14,7 @@ export const registerUser = async (
   email: string,
   password: string
 ) => {
-  const res = await fetch(API_URL + "/register", {
+  const res = await fetch("/api/register", {
     method: "POST",
     body: JSON.stringify({ name, email, password }),
   });
