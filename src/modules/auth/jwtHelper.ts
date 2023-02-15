@@ -3,24 +3,30 @@ import { SignJWT, jwtVerify } from "jose";
 
 const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 const alg = process.env.JWT_ALGO || "HS256";
+const expTime = process.env.JWT_EXPIRATION_TIME || "30d";
 
 export const encodeJwt = async (user: User) => {
   const token = await new SignJWT(user)
     .setProtectedHeader({ alg })
     .setIssuedAt()
-    .setExpirationTime("2h")
+    .setExpirationTime(expTime)
     .sign(secret);
   return token;
 };
 
 export const decodeJwt = async (token: string) => {
-  const { payload } = await jwtVerify(token, secret);
-  const user: User = {
-    id: payload.id as string,
-    username: payload.username as string,
-    email: payload.email as string,
-    password: payload.password as string,
-    createdAt: payload.createdAt as Date,
-  };
-  return user;
+  try {
+    const { payload } = await jwtVerify(token, secret);
+    const user: User = {
+      id: payload.id as string,
+      username: payload.username as string,
+      email: payload.email as string,
+      password: payload.password as string,
+      createdAt: payload.createdAt as Date,
+    };
+    return user;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 };

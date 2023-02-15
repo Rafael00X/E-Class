@@ -3,8 +3,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import {
   decodeJwt,
   encodeJwt,
-  setTokenToCookie,
-  getTokenFromCookie,
+  setTokenToCookieInNextApiResponse,
+  getTokenFromCookieInNextApiRequest,
 } from "@/modules/auth";
 import { createUser, getUserByEmail } from "@/modules/database";
 import { User } from "@prisma/client";
@@ -41,7 +41,7 @@ const login = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   if (user.password !== password)
     return res.status(401).json({ message: "Invalid credentials" });
   const token = await encodeJwt(user);
-  setTokenToCookie(res, token);
+  setTokenToCookieInNextApiResponse(res, token);
   res.status(200).json({ user });
 };
 
@@ -53,7 +53,7 @@ const register = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   try {
     const user = await createUser(name, email, password);
     const token = await encodeJwt(user);
-    setTokenToCookie(res, token);
+    setTokenToCookieInNextApiResponse(res, token);
     res.status(201).json({ user });
   } catch (error) {
     res.status(409).json({ message: "User already exists" });
@@ -62,10 +62,11 @@ const register = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
 const validate = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   try {
-    const token = getTokenFromCookie(req);
+    const token = getTokenFromCookieInNextApiRequest(req);
     if (!token)
       return res.status(400).json({ message: "Jwt token not found in header" });
     const user = await decodeJwt(token);
+    if (!user) return res.status(401).json({ message: "Invalid jwt token" });
     res.status(200).json({ user });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
