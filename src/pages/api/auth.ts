@@ -5,8 +5,8 @@ import {
   encodeJwt,
   setTokenToCookieInNextApiResponse,
   getTokenFromCookieInNextApiRequest,
-} from "@/modules/auth";
-import { createUser, getUserByEmail } from "@/modules/database";
+} from "@/modules/server/auth";
+import { userRepository } from "@/database";
 import { User } from "@prisma/client";
 
 type Data = {
@@ -36,7 +36,7 @@ const login = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   if (!email || !password)
     return res.status(400).json({ message: "Invalid request" });
 
-  const user = await getUserByEmail(email);
+  const user = await userRepository.getUserByEmail(email);
   if (!user) return res.status(404).json({ message: "Email not registered" });
   if (user.password !== password)
     return res.status(401).json({ message: "Invalid credentials" });
@@ -51,7 +51,7 @@ const register = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     return res.status(400).json({ message: "Invalid request" });
 
   try {
-    const user = await createUser(name, email, password);
+    const user = await userRepository.createUser(name, email, password);
     const token = await encodeJwt(user);
     setTokenToCookieInNextApiResponse(res, token);
     res.status(201).json({ user });

@@ -4,7 +4,7 @@ import {
   decodeJwt,
   deleteCookieInNextResponse,
   getTokenFromCookieInNextRequest,
-} from "./modules/auth";
+} from "./modules/server/auth";
 
 export default async function middleware(req: NextRequest) {
   const token = getTokenFromCookieInNextRequest(req);

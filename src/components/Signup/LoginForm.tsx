@@ -1,6 +1,7 @@
 import { useState } from "react";
 import InputField from "../UI/InputField";
-import { loginUser } from "@/modules/fetch";
+import { loginUser } from "@/modules/client/fetch";
+import { useRouter } from "next/router";
 
 const LoginForm = () => {
   const initialState = {
@@ -9,6 +10,7 @@ const LoginForm = () => {
   };
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
+  const router = useRouter();
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues((prevState) => {
       return { ...prevState, [event.target.name]: event.target.value };
@@ -19,6 +21,7 @@ const LoginForm = () => {
     loginUser(values.email, values.password)
       .then((data) => {
         console.log(data);
+        router.push("/");
         // Save to context and local-storage / cookie
       })
       .catch((err) => {
