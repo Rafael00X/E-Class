@@ -40,7 +40,7 @@ const login = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   if (!user) return res.status(404).json({ message: "Email not registered" });
   if (user.password !== password)
     return res.status(401).json({ message: "Invalid credentials" });
-  const token = encodeJwt(user);
+  const token = await encodeJwt(user);
   setTokenToCookie(res, token);
   res.status(200).json({ user });
 };
@@ -52,7 +52,7 @@ const register = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
   try {
     const user = await createUser(name, email, password);
-    const token = encodeJwt(user);
+    const token = await encodeJwt(user);
     setTokenToCookie(res, token);
     res.status(201).json({ user });
   } catch (error) {
@@ -65,7 +65,7 @@ const validate = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     const token = getTokenFromCookie(req);
     if (!token)
       return res.status(400).json({ message: "Jwt token not found in header" });
-    const user = decodeJwt(token);
+    const user = await decodeJwt(token);
     res.status(200).json({ user });
   } catch (err) {
     res.status(500).json({ message: "Server error" });

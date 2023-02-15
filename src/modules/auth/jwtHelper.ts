@@ -1,21 +1,26 @@
 import { User } from "@prisma/client";
-import { sign, verify, JwtPayload } from "jsonwebtoken";
+import { SignJWT, jwtVerify } from "jose";
 
-const secretKey = process.env.JWT_SECRET as string;
+const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+const alg = process.env.JWT_ALGO || "HS256";
 
-export const encodeJwt = (user: User) => {
-  const token = sign(user, secretKey);
+export const encodeJwt = async (user: User) => {
+  const token = await new SignJWT(user)
+    .setProtectedHeader({ alg })
+    .setIssuedAt()
+    .setExpirationTime("2h")
+    .sign(secret);
   return token;
 };
 
-export const decodeJwt = (token: string) => {
-  const decodedToken = verify(token, secretKey) as JwtPayload;
+export const decodeJwt = async (token: string) => {
+  const { payload } = await jwtVerify(token, secret);
   const user: User = {
-    id: decodedToken.id,
-    username: decodedToken.username,
-    email: decodedToken.email,
-    password: decodedToken.password,
-    createdAt: decodedToken.createdAt,
+    id: payload.id as string,
+    username: payload.username as string,
+    email: payload.email as string,
+    password: payload.password as string,
+    createdAt: payload.createdAt as Date,
   };
   return user;
 };
