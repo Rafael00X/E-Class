@@ -11,9 +11,18 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  password  String
-  username  String
-  createdAt DateTime @default(now())
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  email        String      @unique
+  password     String
+  username     String
+  createdAt    DateTime    @default(now())
+  classroomIds String[]    @db.ObjectId
+  classrooms   Classroom[] @relation(fields: [classroomIds], references: [id])
+}
+
+model Classroom {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  studentIds String[] @db.ObjectId
+  students   User[]   @relation(fields: [studentIds], references: [id])
 }
