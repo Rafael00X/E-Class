@@ -11,27 +11,29 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { useRouter } from "next/router";
 
-const menuItemsList = [
-  [
-    { text: "Inbox", icon: <InboxIcon />, url: "/inbox" },
-    { text: "Starred", icon: <MailIcon />, url: "/starred" },
-    { text: "Send Email", icon: <InboxIcon />, url: "/send-email" },
-    { text: "Drafts", icon: <MailIcon />, url: "/drafts" },
-  ],
-  [
-    { text: "All Mails", icon: <InboxIcon />, url: "/all-mails" },
-    { text: "Trash", icon: <MailIcon />, url: "/trash" },
-    { text: "Spam", icon: <InboxIcon />, url: "/spam" },
-  ],
-];
+// const menuItemsList = [
+//   [
+//     { text: "Inbox", icon: <InboxIcon />, url: "/inbox" },
+//     { text: "Starred", icon: <MailIcon />, url: "/starred" },
+//     { text: "Send Email", icon: <InboxIcon />, url: "/send-email" },
+//     { text: "Drafts", icon: <MailIcon />, url: "/drafts" },
+//   ],
+//   [
+//     { text: "All Mails", icon: <InboxIcon />, url: "/all-mails" },
+//     { text: "Trash", icon: <MailIcon />, url: "/trash" },
+//     { text: "Spam", icon: <InboxIcon />, url: "/spam" },
+//   ],
+// ];
 
 type DrawerMenuProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  handleMenuItemClick: (url: string) => void;
+  menuItemsList: { text: string; icon: JSX.Element; url: string }[][];
 };
 
 export default function DrawerMenu(props: DrawerMenuProps) {
-  const { isOpen, setIsOpen } = props;
+  const { isOpen, setIsOpen, handleMenuItemClick, menuItemsList } = props;
   const router = useRouter();
 
   const toggleDrawer =
@@ -62,7 +64,9 @@ export default function DrawerMenu(props: DrawerMenuProps) {
               {menuItems.map((menuItem, index2) => {
                 return (
                   <ListItem key={index2} disablePadding>
-                    <ListItemButton onClick={() => router.push(menuItem.url)}>
+                    <ListItemButton
+                      onClick={() => handleMenuItemClick(menuItem.url)}
+                    >
                       <ListItemIcon>{menuItem.icon}</ListItemIcon>
                       <ListItemText primary={menuItem.text} />
                     </ListItemButton>

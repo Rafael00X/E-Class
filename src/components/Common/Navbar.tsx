@@ -12,41 +12,72 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import DrawerMenu from "./DrawerMenu";
+import NavDrawer from "./NavDrawer";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import { useMediaQuery } from "@mui/material";
+import { useRouter } from "next/router";
 
-const pages = ["Products", "Pricing", "Blog"];
+const menuItemsList = [
+  [
+    { text: "Inbox", icon: <InboxIcon />, url: "/inbox" },
+    { text: "Starred", icon: <MailIcon />, url: "/starred" },
+    { text: "Send Email", icon: <InboxIcon />, url: "/send-email" },
+    { text: "Drafts", icon: <MailIcon />, url: "/drafts" },
+  ],
+  [
+    { text: "All Mails", icon: <InboxIcon />, url: "/all-mails" },
+    { text: "Trash", icon: <MailIcon />, url: "/trash" },
+    { text: "Spam", icon: <InboxIcon />, url: "/spam" },
+  ],
+];
+
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export default function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
   const [isOpen, setIsOpen] = React.useState(false);
+  const matchesMd = useMediaQuery("(min-width:900px)");
+  const router = useRouter();
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
+  const handleOpenNavDrawer = () => {
     setIsOpen(true);
   };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-    setIsOpen(false);
-  };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleMenuItemClick = (url: string) => {
+    setIsOpen(false);
+    router.push(url);
   };
 
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleOpenNavDrawer}
+            color="inherit"
+          >
+            <MenuIcon />
+          </IconButton>
+          <NavDrawer
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            handleMenuItemClick={handleMenuItemClick}
+            menuItemsList={matchesMd ? [menuItemsList[1]] : menuItemsList}
+          />
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
@@ -63,22 +94,9 @@ export default function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            E-CLASS
           </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <DrawerMenu isOpen={isOpen} setIsOpen={setIsOpen} />
-          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}></Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -96,16 +114,16 @@ export default function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            E-CLASS
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {menuItemsList[0].map((menuItem) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={menuItem.text}
+                onClick={() => handleMenuItemClick(menuItem.url)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                {menuItem.text}
               </Button>
             ))}
           </Box>
