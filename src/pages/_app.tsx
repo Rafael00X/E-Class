@@ -5,13 +5,16 @@ import "@/styles/globals.css";
 import "@/styles/themes.css";
 import type { AppProps } from "next/app";
 import Navbar from "@/components/Common/Navbar";
+import Container from "@/components/UI/Container";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
       <Background />
       <Navbar />
-      <Component {...pageProps} />
+      <Container>
+        <Component {...pageProps} />
+      </Container>
     </ThemeProvider>
   );
 }
