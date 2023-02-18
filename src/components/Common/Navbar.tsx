@@ -14,21 +14,22 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import NavDrawer from "./NavDrawer";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import EventIcon from "@mui/icons-material/Event";
 import { useMediaQuery } from "@mui/material";
 import { useRouter } from "next/router";
 
 const menuItemsList = [
   [
-    { text: "Inbox", icon: <InboxIcon />, url: "/inbox" },
-    { text: "Starred", icon: <MailIcon />, url: "/starred" },
-    { text: "Send Email", icon: <InboxIcon />, url: "/send-email" },
-    { text: "Drafts", icon: <MailIcon />, url: "/drafts" },
+    { text: "Assignments", icon: <AssignmentIcon />, url: "/assignments" },
+    { text: "Routine", icon: <AccessTimeIcon />, url: "/Routine" },
   ],
   [
-    { text: "All Mails", icon: <InboxIcon />, url: "/all-mails" },
-    { text: "Trash", icon: <MailIcon />, url: "/trash" },
-    { text: "Spam", icon: <InboxIcon />, url: "/spam" },
+    { text: "My Activity", icon: <EventIcon />, url: "/my-activity" },
+    { text: "Archived Classes", icon: <InboxIcon />, url: "/archived-classes" },
+    { text: "Settings", icon: <SettingsIcon />, url: "/settings" },
   ],
 ];
 

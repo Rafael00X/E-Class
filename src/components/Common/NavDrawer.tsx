@@ -7,7 +7,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { useRouter } from "next/router";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import ProfileCard from "./ProfileCard";
 
 type DrawerMenuProps = {
   isOpen: boolean;
@@ -18,7 +19,10 @@ type DrawerMenuProps = {
 
 export default function NavDrawer(props: DrawerMenuProps) {
   const { isOpen, setIsOpen, handleMenuItemClick, menuItemsList } = props;
-  const router = useRouter();
+
+  const handleLogout = () => {
+    // TODO
+  };
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -36,11 +40,13 @@ export default function NavDrawer(props: DrawerMenuProps) {
 
   const list = (
     <Box
-      sx={{ width: 250 }}
+      sx={{ width: 350 }}
       role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
+      <ProfileCard />
+      <Divider />
       {menuItemsList.map((menuItems, index1) => {
         return (
           <React.Fragment key={index1}>
@@ -59,6 +65,16 @@ export default function NavDrawer(props: DrawerMenuProps) {
               })}
             </List>
             <Divider />
+            <List>
+              <ListItem disablePadding>
+                <ListItemButton onClick={handleLogout}>
+                  <ListItemIcon>
+                    <PowerSettingsNewIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Logout" />
+                </ListItemButton>
+              </ListItem>
+            </List>
           </React.Fragment>
         );
       })}
