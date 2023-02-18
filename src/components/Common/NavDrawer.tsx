@@ -8,7 +8,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import ProfileCard from "./ProfileCard";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+
+import Avatar from "@mui/material/Avatar";
 
 type DrawerMenuProps = {
   isOpen: boolean;
@@ -91,5 +94,22 @@ export default function NavDrawer(props: DrawerMenuProps) {
         {list}
       </SwipeableDrawer>
     </div>
+  );
+}
+
+function ProfileCard() {
+  return (
+    <Card sx={{ maxWidth: 345, boxShadow: 0 }}>
+      <CardHeader
+        avatar={
+          <Avatar
+            alt="Profile Image"
+            src="https://th.bing.com/th/id/OIP.N8EwSZlfSY6jardurn1rFAHaEK?w=295&h=180&c=7&r=0&o=5&pid=1.7"
+          />
+        }
+        title="Shrimp and Chorizo Paella"
+        subheader="catto234@gmail.com"
+      />
+    </Card>
   );
 }

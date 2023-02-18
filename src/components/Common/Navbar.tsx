@@ -4,13 +4,11 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import NavDrawer from "./NavDrawer";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
@@ -33,25 +31,13 @@ const menuItemsList = [
   ],
 ];
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
-
 export default function Navbar() {
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
   const [isOpen, setIsOpen] = React.useState(false);
   const isMaximized = useMediaQuery("(min-width:900px)");
   const router = useRouter();
 
   const handleOpenNavDrawer = () => {
     setIsOpen(true);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   const handleMenuItemClick = (url: string) => {
