@@ -21,7 +21,7 @@ export default function NavDrawer(props: DrawerMenuProps) {
   const { isOpen, setIsOpen, handleMenuItemClick, menuItemsList } = props;
 
   const handleLogout = () => {
-    // TODO
+    setIsOpen(false);
   };
 
   const toggleDrawer =
@@ -42,7 +42,6 @@ export default function NavDrawer(props: DrawerMenuProps) {
     <Box
       sx={{ width: 350 }}
       role="presentation"
-      onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
       <ProfileCard />

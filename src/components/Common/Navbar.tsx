@@ -84,45 +84,13 @@ export default function Navbar() {
             handleMenuItemClick={handleMenuItemClick}
             menuItemsList={isMaximized ? [menuItemsList[1]] : menuItemsList}
           />
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
+          <Logo />
+          <Box
             sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            E-CLASS
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}></Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
+              display: { xs: "none", md: "flex" },
             }}
           >
-            E-CLASS
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {menuItemsList[0].map((menuItem) => (
               <Button
                 key={menuItem.text}
@@ -135,39 +103,48 @@ export default function Navbar() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            <Tooltip title="Shrimp and Chorizo Paella">
+              <IconButton sx={{ p: 0 }}>
                 <Avatar
                   alt="Profile Image"
                   src="https://th.bing.com/th/id/OIP.N8EwSZlfSY6jardurn1rFAHaEK?w=295&h=180&c=7&r=0&o=5&pid=1.7"
                 />
               </IconButton>
             </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
+  );
+}
+
+function Logo() {
+  return (
+    <Box
+      component="a"
+      href="/"
+      sx={{
+        alignItems: "center",
+        flexGrow: { xs: 1, md: 0 },
+        justifyContent: "center",
+        display: "flex",
+        textDecoration: "none",
+        color: "inherit",
+      }}
+    >
+      <AdbIcon sx={{ mr: 1 }} />
+      <Typography
+        variant="h6"
+        noWrap
+        sx={{
+          mr: 2,
+          fontFamily: "monospace",
+          fontWeight: 700,
+          letterSpacing: ".3rem",
+        }}
+      >
+        E-CLASS
+      </Typography>
+    </Box>
   );
 }
