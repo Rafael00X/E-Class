@@ -13,7 +13,7 @@ type ClassPreviewCardProps = {
 export default function ClassPreviewCard(props: ClassPreviewCardProps) {
   const { name, id } = props.classroom;
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, margin: "auto" }}>
       <CardActionArea>
         <CardMedia
           component="img"
