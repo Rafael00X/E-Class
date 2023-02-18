@@ -1,3 +1,5 @@
+import { Classroom } from "./classroom";
+
 export type User = {
   id: String;
   username: String;
@@ -5,8 +7,8 @@ export type User = {
   classrooms?: Classroom[];
 };
 
-export type Classroom = {
+export type UserPreview = {
   id: String;
-  name: String;
-  students?: User[];
+  username: String;
+  email: String;
 };

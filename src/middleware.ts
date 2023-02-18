@@ -24,7 +24,7 @@ export default async function middleware(req: NextRequest) {
     return res;
   }
 
-  // TODO - Try to put user in req.body
+  // Copy headers and add userId to it
   const headers = new Headers(req.headers);
   headers.set("user_id", user.id);
 

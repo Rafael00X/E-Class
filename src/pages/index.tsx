@@ -1,7 +1,7 @@
 import Button from "@/components/UI/Button";
 import { ThemeContext } from "@/contexts/Theme";
 import { userRepository } from "@/database";
-import { User } from "@prisma/client";
+import { User } from "@/types/user";
 import { GetServerSideProps } from "next";
 import { useContext } from "react";
 
@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
 
   const fetchedUser = await userRepository.getUserById(userId);
-  const user = {
+  const user: User = {
     id: fetchedUser.id,
     username: fetchedUser.username,
     email: fetchedUser.email,
