@@ -1,3 +1,5 @@
+import ClassGrid from "@/components/Home/ClassGrid";
+import ClassPreviewCard from "@/components/Home/ClassPreviewCard";
 import Button from "@/components/UI/Button";
 import { ThemeContext } from "@/contexts/Theme";
 import { userRepository } from "@/database";
@@ -6,15 +8,17 @@ import { GetServerSideProps } from "next";
 import { useContext } from "react";
 
 type HomeProps = {
-  user?: User;
+  user: User;
 };
 
 export default function HomePage(props: HomeProps) {
+  const user = props.user;
   console.log(props.user);
   const context = useContext(ThemeContext);
   const handleClick = () => context?.swapTheme();
   return (
     <div>
+      {user.classrooms && <ClassGrid classrooms={user.classrooms} />}
       <Button onClick={handleClick}>Click Me</Button>
       <Button onClick={handleClick} type="hlt">
         Click Me

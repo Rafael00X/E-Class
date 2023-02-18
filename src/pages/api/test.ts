@@ -12,8 +12,7 @@ type Data = {
 //   req: NextApiRequest,
 //   res: NextApiResponse<Data>
 // ) {
-//   const name = "New Classroom 2";
-//   const code = "code 2";
+//   const name = "New Classroom 5";
 //   const classroom = await classroomRepository.createClassroom(name);
 //   return res.status(201).json({ classroom });
 // }

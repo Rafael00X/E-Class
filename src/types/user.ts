@@ -1,14 +1,14 @@
 import { Classroom } from "./classroom";
 
 export type User = {
-  id: String;
-  username: String;
-  email: String;
+  id: string;
+  username: string;
+  email: string;
   classrooms?: Classroom[];
 };
 
 export type UserPreview = {
-  id: String;
-  username: String;
-  email: String;
+  id: string;
+  username: string;
+  email: string;
 };

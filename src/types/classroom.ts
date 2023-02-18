@@ -1,7 +1,7 @@
 import { User } from "./user";
 
 export type Classroom = {
-  id: String;
-  name: String;
+  id: string;
+  name: string;
   students?: User[];
 };
