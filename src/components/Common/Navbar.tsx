@@ -34,12 +34,12 @@ const menuItemsList = [
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-export default function ResponsiveAppBar() {
+export default function Navbar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
   const [isOpen, setIsOpen] = React.useState(false);
-  const matchesMd = useMediaQuery("(min-width:900px)");
+  const isMaximized = useMediaQuery("(min-width:900px)");
   const router = useRouter();
 
   const handleOpenNavDrawer = () => {
@@ -59,24 +59,29 @@ export default function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      style={{ backgroundColor: "#222", color: "#eee" }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleOpenNavDrawer}
-            color="inherit"
-          >
-            <MenuIcon />
-          </IconButton>
+          <Box mr={isMaximized ? 5 : 0}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavDrawer}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+          </Box>
           <NavDrawer
             isOpen={isOpen}
             setIsOpen={setIsOpen}
             handleMenuItemClick={handleMenuItemClick}
-            menuItemsList={matchesMd ? [menuItemsList[1]] : menuItemsList}
+            menuItemsList={isMaximized ? [menuItemsList[1]] : menuItemsList}
           />
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
@@ -131,7 +136,10 @@ export default function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  alt="Profile Image"
+                  src="https://th.bing.com/th/id/OIP.N8EwSZlfSY6jardurn1rFAHaEK?w=295&h=180&c=7&r=0&o=5&pid=1.7"
+                />
               </IconButton>
             </Tooltip>
             <Menu

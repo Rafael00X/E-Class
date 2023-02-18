@@ -7,23 +7,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { useRouter } from "next/router";
-
-// const menuItemsList = [
-//   [
-//     { text: "Inbox", icon: <InboxIcon />, url: "/inbox" },
-//     { text: "Starred", icon: <MailIcon />, url: "/starred" },
-//     { text: "Send Email", icon: <InboxIcon />, url: "/send-email" },
-//     { text: "Drafts", icon: <MailIcon />, url: "/drafts" },
-//   ],
-//   [
-//     { text: "All Mails", icon: <InboxIcon />, url: "/all-mails" },
-//     { text: "Trash", icon: <MailIcon />, url: "/trash" },
-//     { text: "Spam", icon: <InboxIcon />, url: "/spam" },
-//   ],
-// ];
 
 type DrawerMenuProps = {
   isOpen: boolean;
@@ -32,7 +16,7 @@ type DrawerMenuProps = {
   menuItemsList: { text: string; icon: JSX.Element; url: string }[][];
 };
 
-export default function DrawerMenu(props: DrawerMenuProps) {
+export default function NavDrawer(props: DrawerMenuProps) {
   const { isOpen, setIsOpen, handleMenuItemClick, menuItemsList } = props;
   const router = useRouter();
 
