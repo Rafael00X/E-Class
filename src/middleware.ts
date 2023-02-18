@@ -9,6 +9,7 @@ import {
 export default async function middleware(req: NextRequest) {
   const token = getTokenFromCookieInNextRequest(req);
   let user: User | null = null;
+  let res: NextResponse;
 
   // Get user from token
   if (token) user = await decodeJwt(token);
@@ -16,7 +17,6 @@ export default async function middleware(req: NextRequest) {
   // Not authorized due to missing jwt token, send to '/signup'
   // Not authorized due to invalid jwt token, delete cookie and send to '/signup'
   if (!user) {
-    let res: NextResponse;
     if (req.nextUrl.pathname.startsWith("/signup")) res = NextResponse.next();
     else res = NextResponse.redirect(new URL("/signup", req.url));
 
@@ -25,12 +25,15 @@ export default async function middleware(req: NextRequest) {
   }
 
   // TODO - Try to put user in req.body
+  const headers = new Headers(req.headers);
+  headers.set("user_id", user.id);
 
   // Authorized, redirect to home page if trying to go to '/signup'
   if (req.nextUrl.pathname.startsWith("/signup"))
-    return NextResponse.redirect(new URL("/", req.url));
+    res = NextResponse.redirect(new URL("/", req.url));
+  else res = NextResponse.next({ request: { headers } });
 
-  return NextResponse.next();
+  return res;
 }
 
 export const config = {

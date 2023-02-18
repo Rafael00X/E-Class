@@ -1,16 +1,20 @@
 import Button from "@/components/UI/Button";
-import Card from "@/components/UI/Card";
 import { ThemeContext } from "@/contexts/Theme";
+import { userRepository } from "@/database";
+import { User } from "@prisma/client";
+import { GetServerSideProps } from "next";
 import { useContext } from "react";
 
-export default function Home() {
+type HomeProps = {
+  user?: User;
+};
+
+export default function HomePage(props: HomeProps) {
+  console.log(props.user);
   const context = useContext(ThemeContext);
   const handleClick = () => context?.swapTheme();
   return (
     <div>
-      <Card>
-        <h1>Hello World!</h1>
-      </Card>
       <Button onClick={handleClick}>Click Me</Button>
       <Button onClick={handleClick} type="hlt">
         Click Me
@@ -18,3 +22,28 @@ export default function Home() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const userId = context.req.headers["user_id"];
+  if (!userId || typeof userId !== "string")
+    return {
+      redirect: {
+        destination: "/signup",
+        permanent: false,
+      },
+    };
+
+  const fetchedUser = await userRepository.getUserById(userId);
+  const user = {
+    id: fetchedUser.id,
+    username: fetchedUser.username,
+    email: fetchedUser.email,
+    classrooms: fetchedUser.classrooms,
+  };
+
+  return {
+    props: {
+      user,
+    },
+  };
+};
