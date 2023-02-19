@@ -7,6 +7,7 @@ export const getClassroomById = async (classroomId: string) => {
     },
     include: {
       students: true,
+      courses: true,
     },
   });
 };

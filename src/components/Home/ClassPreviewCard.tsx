@@ -5,6 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import { Classroom } from "@/types/classroom";
+import { useRouter } from "next/router";
 
 type ClassPreviewCardProps = {
   classroom: Classroom;
@@ -12,9 +13,11 @@ type ClassPreviewCardProps = {
 
 export default function ClassPreviewCard(props: ClassPreviewCardProps) {
   const { name, id } = props.classroom;
+  const router = useRouter();
+  const handleClick = () => router.push("/classrooms/" + id);
   return (
     <Card sx={{ maxWidth: 345, margin: "auto" }}>
-      <CardActionArea>
+      <CardActionArea onClick={handleClick}>
         <CardMedia
           component="img"
           height="140"

@@ -25,4 +25,13 @@ model Classroom {
   name       String
   studentIds String[] @db.ObjectId
   students   User[]   @relation(fields: [studentIds], references: [id])
+  courseIds  String[] @db.ObjectId
+  courses    Course[]
+}
+
+model Course {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  classroomId String    @unique @db.ObjectId
+  classroom   Classroom @relation(fields: [classroomId], references: [id])
 }
