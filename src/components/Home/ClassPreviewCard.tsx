@@ -16,7 +16,7 @@ export default function ClassPreviewCard(props: ClassPreviewCardProps) {
   const router = useRouter();
   const handleClick = () => router.push("/classrooms/" + id);
   return (
-    <Card sx={{ maxWidth: 345, margin: "auto" }}>
+    <Card sx={{ maxWidth: 345, margin: "auto", minWidth: 250 }}>
       <CardActionArea onClick={handleClick}>
         <CardMedia
           component="img"
