@@ -6,7 +6,15 @@ export const getClassroomById = async (classroomId: string) => {
       id: classroomId,
     },
     include: {
+      admin: true,
       students: {
+        select: {
+          id: true,
+          username: true,
+          email: true,
+        },
+      },
+      teachers: {
         select: {
           id: true,
           username: true,
@@ -18,32 +26,50 @@ export const getClassroomById = async (classroomId: string) => {
   });
 };
 
-export const createClassroom = async (name: string) => {
+export const createClassroom = async (name: string, userId: string) => {
   return await prisma.classroom.create({
     data: {
       name,
+      admin: {
+        connect: {
+          id: userId,
+        },
+      },
     },
   });
 };
 
-export const addUserToClassroom = async (
+export const addStudentToClassroom = async (
   userId: string,
   classroomId: string
 ) => {
-  const classroom = await prisma.classroom.findUniqueOrThrow({
-    where: {
-      id: classroomId,
-    },
-  });
-  if (classroom.studentIds.find((id) => id === userId))
-    throw new Error("Already enrolled in class");
   return await prisma.classroom.update({
     where: {
       id: classroomId,
     },
     data: {
-      studentIds: {
-        push: userId,
+      students: {
+        connect: {
+          id: userId,
+        },
+      },
+    },
+  });
+};
+
+export const addTeacherToClassroom = async (
+  userId: string,
+  classroomId: string
+) => {
+  return await prisma.classroom.update({
+    where: {
+      id: classroomId,
+    },
+    data: {
+      teachers: {
+        connect: {
+          id: userId,
+        },
       },
     },
   });

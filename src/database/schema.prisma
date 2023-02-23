@@ -11,27 +11,44 @@ datasource db {
 }
 
 model User {
-  id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  email        String      @unique
-  password     String
-  username     String
-  createdAt    DateTime    @default(now())
-  classroomIds String[]    @db.ObjectId
-  classrooms   Classroom[] @relation(fields: [classroomIds], references: [id])
+  id                  String      @id @default(auto()) @map("_id") @db.ObjectId
+  email               String      @unique
+  password            String
+  username            String
+  createdAt           DateTime    @default(now())
+  adminClassrooms     Classroom[]
+  teacherClassroomIds String[]    @db.ObjectId @default([])
+  teacherClassrooms   Classroom[] @relation(fields: [teacherClassroomIds], references: [id], name: "teacher")
+  studentClassroomIds String[]    @db.ObjectId @default([])
+  studentClassrooms   Classroom[] @relation(fields: [studentClassroomIds], references: [id], name: "student")
 }
 
 model Classroom {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   name       String
+  createdAt  DateTime @default(now())
+  adminId    String   @db.ObjectId
+  admin      User     @relation(fields: [adminId], references: [id])
+  teacherIds String[] @db.ObjectId
+  teachers   User[]   @relation(fields: [teacherIds], references: [id], name: "teacher")
   studentIds String[] @db.ObjectId
-  students   User[]   @relation(fields: [studentIds], references: [id])
-  courseIds  String[] @db.ObjectId
+  students   User[]   @relation(fields: [studentIds], references: [id], name: "student")
   courses    Course[]
 }
 
 model Course {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
   name        String
-  classroomId String    @unique @db.ObjectId
-  classroom   Classroom @relation(fields: [classroomId], references: [id])
+  createdAt   DateTime     @default(now())
+  classroomId String       @unique @db.ObjectId
+  classroom   Classroom    @relation(fields: [classroomId], references: [id])
+  assignments Assignment[]
+}
+
+model Assignment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  courseId  String   @unique @db.ObjectId
+  course    Course   @relation(fields: [courseId], references: [id])
 }

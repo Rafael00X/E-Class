@@ -6,6 +6,7 @@ import { User } from "@/types/user";
 import Box from "@mui/material/Box";
 import { GetServerSideProps } from "next";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import AddClassroomForm from "@/components/Form/AddClassroom";
 
 type HomeProps = {
   user: User;
@@ -27,6 +28,7 @@ export default function HomePage(props: HomeProps) {
           </Box>
         )}
       </Box>
+      <AddClassroomForm />
     </div>
   );
 }
@@ -46,7 +48,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     id: fetchedUser.id,
     username: fetchedUser.username,
     email: fetchedUser.email,
-    classrooms: fetchedUser.classrooms,
+    classrooms: [
+      ...fetchedUser.adminClassrooms,
+      ...fetchedUser.teacherClassrooms,
+      ...fetchedUser.studentClassrooms,
+    ],
   };
 
   return {
