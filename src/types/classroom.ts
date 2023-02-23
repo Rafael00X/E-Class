@@ -1,7 +1,7 @@
-import { User } from "./user";
+import { UserPreview } from "./user";
 
 export type Classroom = {
   id: string;
   name: string;
-  students?: User[];
+  students?: UserPreview[];
 };

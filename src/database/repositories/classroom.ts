@@ -6,7 +6,13 @@ export const getClassroomById = async (classroomId: string) => {
       id: classroomId,
     },
     include: {
-      students: true,
+      students: {
+        select: {
+          id: true,
+          username: true,
+          email: true,
+        },
+      },
       courses: true,
     },
   });

@@ -29,9 +29,11 @@ export default function ClassroomPage(props: ClassroomProps) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const classroomId = context.params?.id as string;
   const result = await getClassroomById(classroomId);
+  console.log(result);
   const classroom: Classroom = {
     name: result.name,
     id: result.id,
+    students: result.students,
   };
 
   return {
