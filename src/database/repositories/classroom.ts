@@ -7,6 +7,11 @@ export const getClassroomById = async (classroomId: string) => {
     },
     include: {
       admin: true,
+      assignments: {
+        include: {
+          author: true,
+        },
+      },
       students: {
         select: {
           id: true,
@@ -21,7 +26,6 @@ export const getClassroomById = async (classroomId: string) => {
           email: true,
         },
       },
-      courses: true,
     },
   });
 };

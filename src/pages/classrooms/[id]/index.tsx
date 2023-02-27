@@ -1,13 +1,8 @@
-import AssignmentsPreviewCard from "@/components/Home/AssignmentsPreviewCard";
-import RoutinePreviewCard from "@/components/Home/RoutinePreviewCard";
-import ClassGrid from "@/components/Home/ClassGrid";
-import { userRepository } from "@/database";
-import { User } from "@/types/user";
-import Box from "@mui/material/Box";
 import { GetServerSideProps } from "next";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import { getClassroomById } from "@/database/repositories/classroom";
 import { Classroom } from "@/types/classroom";
+import AssignmentCard from "@/components/Classroom/AssignmentCard";
+import { Assignment, assignmentMapper } from "@/types/assignment";
 
 type ClassroomProps = {
   classroom: Classroom;
@@ -15,12 +10,13 @@ type ClassroomProps = {
 
 export default function ClassroomPage(props: ClassroomProps) {
   const { classroom } = props;
+  console.log(classroom);
   if (!classroom) throw new Error("Classroom not found");
   return (
     <div>
       <h1>{classroom.name}</h1>
       {classroom.students?.map((student) => (
-        <h6>{student.username}</h6>
+        <h6 key={student.id}>{student.username}</h6>
       ))}
     </div>
   );
@@ -34,6 +30,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     name: result.name,
     id: result.id,
     students: result.students,
+    assignments: result.assignments.map((a) => {
+      const assignment = assignmentMapper(a);
+      assignment.author = {
+        id: a.author.id,
+        email: a.author.email,
+        username: a.author.username,
+      };
+      return assignment;
+    }),
   };
 
   return {
