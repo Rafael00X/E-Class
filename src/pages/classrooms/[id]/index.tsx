@@ -2,7 +2,8 @@ import { GetServerSideProps } from "next";
 import { getClassroomById } from "@/database/repositories/classroom";
 import { Classroom } from "@/types/classroom";
 import AssignmentCard from "@/components/Classroom/AssignmentCard";
-import { Assignment, assignmentMapper } from "@/types/assignment";
+import { assignmentMapper } from "@/types/assignment";
+import { userPreviewMapper } from "@/types/user";
 
 type ClassroomProps = {
   classroom: Classroom;
@@ -15,8 +16,8 @@ export default function ClassroomPage(props: ClassroomProps) {
   return (
     <div>
       <h1>{classroom.name}</h1>
-      {classroom.students?.map((student) => (
-        <h6 key={student.id}>{student.username}</h6>
+      {classroom.assignments?.map((assignment) => (
+        <AssignmentCard assignment={assignment} />
       ))}
     </div>
   );
@@ -32,11 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     students: result.students,
     assignments: result.assignments.map((a) => {
       const assignment = assignmentMapper(a);
-      assignment.author = {
-        id: a.author.id,
-        email: a.author.email,
-        username: a.author.username,
-      };
+      assignment.author = userPreviewMapper(a.author);
       return assignment;
     }),
   };

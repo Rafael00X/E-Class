@@ -1,11 +1,16 @@
+import { Assignment } from "@/types/assignment";
 import {
   Box,
-  Button,
   Card,
-  CardActions,
+  CardActionArea,
   CardContent,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
+
+type AssignmentCardProps = {
+  assignment: Assignment;
+};
 
 const bull = (
   <Box
@@ -16,29 +21,29 @@ const bull = (
   </Box>
 );
 
-export default function AssignmentCard(props: any) {
-  const { id, name, description } = props;
+export default function AssignmentCard(props: AssignmentCardProps) {
+  const { assignment } = props;
+  const router = useRouter();
+  const handleClick = () =>
+    // router.push(
+    //   `/classrooms/${assignment.classroomId}/assignments/${assignment.id}`
+    // );
+    router.push(`/assignments/${assignment.id}`);
   return (
     <Card sx={{ width: "100%" }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="div">
-          be{bull}nev{bull}o{bull}lent
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
+      <CardActionArea onClick={handleClick}>
+        <CardContent>
+          <Typography variant="h5" component="div">
+            {assignment.name}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            {assignment.author?.username}
+          </Typography>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            {assignment.createdAt + " "} {bull} {" " + assignment.closedAt}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 }
