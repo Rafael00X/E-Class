@@ -10,21 +10,45 @@ import ListItemText from "@mui/material/ListItemText";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-
 import Avatar from "@mui/material/Avatar";
+
+import HomeIcon from "@mui/icons-material/Home";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import EventIcon from "@mui/icons-material/Event";
+import { useRouter } from "next/router";
+
+const menuItemsList = [
+  [
+    { text: "Home", icon: <HomeIcon />, url: "/" },
+    { text: "Assignments", icon: <AssignmentIcon />, url: "/assignments" },
+    { text: "Routine", icon: <AccessTimeIcon />, url: "/routine" },
+  ],
+  [
+    { text: "My Activity", icon: <EventIcon />, url: "/my-activity" },
+    { text: "Archived Classes", icon: <InboxIcon />, url: "/archived-classes" },
+    { text: "Settings", icon: <SettingsIcon />, url: "/settings" },
+  ],
+];
 
 type DrawerMenuProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  handleMenuItemClick: (url: string) => void;
-  menuItemsList: { text: string; icon: JSX.Element; url: string }[][];
 };
 
 export default function NavDrawer(props: DrawerMenuProps) {
-  const { isOpen, setIsOpen, handleMenuItemClick, menuItemsList } = props;
+  const { isOpen, setIsOpen } = props;
+  const router = useRouter();
 
   const handleLogout = () => {
     setIsOpen(false);
+  };
+
+  const handleChangeRoute = (url: string) => {
+    setIsOpen(false);
+    router.push(url);
   };
 
   const toggleDrawer =
@@ -41,48 +65,6 @@ export default function NavDrawer(props: DrawerMenuProps) {
       setIsOpen(open);
     };
 
-  const list = (
-    <Box
-      sx={{ width: 350 }}
-      role="presentation"
-      onKeyDown={toggleDrawer(false)}
-    >
-      <ProfileCard />
-      <Divider />
-      {menuItemsList.map((menuItems, index1) => {
-        return (
-          <React.Fragment key={index1}>
-            <List>
-              {menuItems.map((menuItem, index2) => {
-                return (
-                  <ListItem key={index2} disablePadding>
-                    <ListItemButton
-                      onClick={() => handleMenuItemClick(menuItem.url)}
-                    >
-                      <ListItemIcon>{menuItem.icon}</ListItemIcon>
-                      <ListItemText primary={menuItem.text} />
-                    </ListItemButton>
-                  </ListItem>
-                );
-              })}
-            </List>
-            <Divider />
-            <List>
-              <ListItem disablePadding>
-                <ListItemButton onClick={handleLogout}>
-                  <ListItemIcon>
-                    <PowerSettingsNewIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Logout" />
-                </ListItemButton>
-              </ListItem>
-            </List>
-          </React.Fragment>
-        );
-      })}
-    </Box>
-  );
-
   return (
     <div>
       <SwipeableDrawer
@@ -91,7 +73,40 @@ export default function NavDrawer(props: DrawerMenuProps) {
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
       >
-        {list}
+        <Box
+          sx={{ width: 350 }}
+          role="presentation"
+          onKeyDown={toggleDrawer(false)}
+        >
+          <ProfileCard />
+          <Divider />
+          {menuItemsList.map((menuItems, index1) => {
+            return (
+              <React.Fragment key={index1}>
+                <List>
+                  {menuItems.map((menuItem, index2) => {
+                    return (
+                      <MenuListItem
+                        key={index2}
+                        text={menuItem.text}
+                        handleClick={() => handleChangeRoute(menuItem.url)}
+                        icon={menuItem.icon}
+                      />
+                    );
+                  })}
+                </List>
+                <Divider />
+              </React.Fragment>
+            );
+          })}
+          <List>
+            <MenuListItem
+              text={"Logout"}
+              handleClick={() => handleLogout()}
+              icon={<PowerSettingsNewIcon />}
+            />
+          </List>
+        </Box>
       </SwipeableDrawer>
     </div>
   );
@@ -111,5 +126,20 @@ function ProfileCard() {
         subheader="catto234@gmail.com"
       />
     </Card>
+  );
+}
+
+function MenuListItem(props: {
+  text: string;
+  icon: JSX.Element;
+  handleClick: () => void;
+}) {
+  return (
+    <ListItem disablePadding>
+      <ListItemButton onClick={props.handleClick}>
+        <ListItemIcon>{props.icon}</ListItemIcon>
+        <ListItemText primary={props.text} />
+      </ListItemButton>
+    </ListItem>
   );
 }

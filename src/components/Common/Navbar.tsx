@@ -10,31 +10,20 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import AdbIcon from "@mui/icons-material/Adb";
-import NavDrawer from "./NavDrawer";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import SettingsIcon from "@mui/icons-material/Settings";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import EventIcon from "@mui/icons-material/Event";
-import { useMediaQuery } from "@mui/material";
 import { useRouter } from "next/router";
 
-const menuItemsList = [
-  [
-    { text: "Assignments", icon: <AssignmentIcon />, url: "/assignments" },
-    { text: "Routine", icon: <AccessTimeIcon />, url: "/Routine" },
-  ],
-  [
-    { text: "My Activity", icon: <EventIcon />, url: "/my-activity" },
-    { text: "Archived Classes", icon: <InboxIcon />, url: "/archived-classes" },
-    { text: "Settings", icon: <SettingsIcon />, url: "/settings" },
-  ],
-];
+import NavDrawer from "./NavDrawer";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-export default function Navbar() {
+type NavbarProps = {
+  logo: boolean;
+  tabs: { text: string; url: string }[];
+};
+
+export default function Navbar(props: NavbarProps) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const isMaximized = useMediaQuery("(min-width:900px)");
   const router = useRouter();
+  const isSmall = useMediaQuery("(max-width:1040px)");
 
   const handleOpenNavDrawer = () => {
     setIsOpen(true);
@@ -50,9 +39,9 @@ export default function Navbar() {
       position="static"
       style={{ backgroundColor: "#222", color: "#eee" }}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth={false}>
         <Toolbar disableGutters>
-          <Box mr={isMaximized ? 5 : 0}>
+          <Box mr={4}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -64,29 +53,13 @@ export default function Navbar() {
               <MenuIcon />
             </IconButton>
           </Box>
-          <NavDrawer
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            handleMenuItemClick={handleMenuItemClick}
-            menuItemsList={isMaximized ? [menuItemsList[1]] : menuItemsList}
+          <NavDrawer isOpen={isOpen} setIsOpen={setIsOpen} />
+          {props.logo && <Logo />}
+
+          <NavLinks
+            handleClick={handleMenuItemClick}
+            tabs={isSmall ? [] : props.tabs}
           />
-          <Logo />
-          <Box
-            sx={{
-              flexGrow: 1,
-              display: { xs: "none", md: "flex" },
-            }}
-          >
-            {menuItemsList[0].map((menuItem) => (
-              <Button
-                key={menuItem.text}
-                onClick={() => handleMenuItemClick(menuItem.url)}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {menuItem.text}
-              </Button>
-            ))}
-          </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Shrimp and Chorizo Paella">
@@ -99,6 +72,10 @@ export default function Navbar() {
             </Tooltip>
           </Box>
         </Toolbar>
+        <NavLinks
+          handleClick={handleMenuItemClick}
+          tabs={!isSmall ? [] : props.tabs}
+        />
       </Container>
     </AppBar>
   );
@@ -111,7 +88,6 @@ function Logo() {
       href="/"
       sx={{
         alignItems: "center",
-        flexGrow: { xs: 1, md: 0 },
         justifyContent: "center",
         display: "flex",
         textDecoration: "none",
@@ -131,6 +107,31 @@ function Logo() {
       >
         E-CLASS
       </Typography>
+    </Box>
+  );
+}
+
+function NavLinks(props: {
+  tabs: { text: string; url: string }[];
+  handleClick: (url: string) => void;
+}) {
+  return (
+    <Box
+      sx={{
+        flexGrow: 1,
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      {props.tabs.map((navItem) => (
+        <Button
+          key={navItem.text}
+          onClick={() => props.handleClick(navItem.url)}
+          sx={{ px: 3, py: 2, color: "white", display: "block" }}
+        >
+          {navItem.text}
+        </Button>
+      ))}
     </Box>
   );
 }

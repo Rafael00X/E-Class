@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import { GetServerSideProps } from "next";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import AddClassroomForm from "@/components/Form/AddClassroom";
+import Layout from "@/components/UI/Layout";
 
 type HomeProps = {
   user: User;
@@ -16,7 +17,7 @@ export default function HomePage(props: HomeProps) {
   const user = props.user;
   const isMedium = useMediaQuery("(min-width:900px)");
   return (
-    <div>
+    <Layout logo={true} tabs={[]}>
       <Box sx={{ display: "flex" }}>
         <Box p={2} sx={{ width: "100%" }}>
           {user.classrooms && <ClassGrid classrooms={user.classrooms} />}
@@ -29,7 +30,7 @@ export default function HomePage(props: HomeProps) {
         )}
       </Box>
       <AddClassroomForm />
-    </div>
+    </Layout>
   );
 }
 
@@ -48,6 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     id: fetchedUser.id,
     username: fetchedUser.username,
     email: fetchedUser.email,
+    createdAt: fetchedUser.createdAt.toISOString(),
     classrooms: [
       ...fetchedUser.adminClassrooms,
       ...fetchedUser.teacherClassrooms,
