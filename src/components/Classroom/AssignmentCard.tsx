@@ -25,10 +25,10 @@ export default function AssignmentCard(props: AssignmentCardProps) {
   const { assignment } = props;
   const router = useRouter();
   const handleClick = () =>
-    // router.push(
-    //   `/classrooms/${assignment.classroomId}/assignments/${assignment.id}`
-    // );
-    router.push(`/assignments/${assignment.id}`);
+    router.push(
+      `/classrooms/${assignment.classroomId}/assignments/${assignment.id}`
+    );
+  // router.push(`/assignments/${assignment.id}`);
   return (
     <Card sx={{ width: "100%" }}>
       <CardActionArea onClick={handleClick}>

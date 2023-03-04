@@ -13,6 +13,12 @@ export const getAssignmentById = async (assignmentId: string) => {
           email: true,
         },
       },
+      classroom: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   });
 };

@@ -17,14 +17,14 @@ export default function ClassroomPage(props: ClassroomProps) {
     <div>
       <h1>{classroom.name}</h1>
       {classroom.assignments?.map((assignment) => (
-        <AssignmentCard assignment={assignment} />
+        <AssignmentCard key={assignment.id} assignment={assignment} />
       ))}
     </div>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const classroomId = context.params?.id as string;
+  const classroomId = context.params?.classroomId as string;
   const result = await getClassroomById(classroomId);
   console.log(result);
   const classroom: Classroom = {
