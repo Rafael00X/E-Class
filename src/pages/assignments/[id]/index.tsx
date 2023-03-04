@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next";
-import { Assignment } from "@/types/assignment";
+import { Assignment, assignmentMapper } from "@/types/assignment";
+import { getAssignmentById } from "@/database/repositories/assignment";
 
 type AssignmentProps = {
   assignment: Assignment | null;
@@ -8,32 +9,25 @@ type AssignmentProps = {
 export default function ClassroomPage(props: AssignmentProps) {
   const { assignment } = props;
   console.log(assignment);
-  if (!assignment) return <h1>Error</h1>;
+  if (!assignment) return <h1>Assignment not found</h1>;
   return (
     <div>
       <h1>{assignment.name}</h1>
+      <p>{assignment.description}</p>
     </div>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const assignmentId = context.params?.id as string;
-  // const result = await getClassroomById(classroomId);
-  // console.log(result);
-  // const classroom: Classroom = {
-  //   name: result.name,
-  //   id: result.id,
-  //   students: result.students,
-  //   assignments: result.assignments.map((a) => {
-  //     const assignment = assignmentMapper(a);
-  //     assignment.author = userPreviewMapper(a.author);
-  //     return assignment;
-  //   }),
-  // };
+  const result = await getAssignmentById(assignmentId);
+  console.log("From Assignment page");
+  console.log(result);
+  const assignment = assignmentMapper(result);
 
   return {
     props: {
-      assignment: null,
+      assignment,
     },
   };
 };

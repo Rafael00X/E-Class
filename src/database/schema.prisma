@@ -42,9 +42,9 @@ model Assignment {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
-  tag         String
+  tag         String?
   createdAt   DateTime  @default(now())
-  closedAt    DateTime
+  closedAt    DateTime?
   authorId    String    @db.ObjectId
   author      User      @relation(fields: [authorId], references: [id])
   classroomId String    @db.ObjectId
