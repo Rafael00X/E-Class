@@ -16,8 +16,9 @@ import NavDrawer from "./NavDrawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 type NavbarProps = {
-  logo: boolean;
+  logo?: boolean;
   tabs: { text: string; url: string }[];
+  title?: string;
 };
 
 export default function Navbar(props: NavbarProps) {
@@ -54,8 +55,10 @@ export default function Navbar(props: NavbarProps) {
             </IconButton>
           </Box>
           <NavDrawer isOpen={isOpen} setIsOpen={setIsOpen} />
+          <Box sx={{ flexGrow: 0 }}>
+            <Typography variant="subtitle1">{props.title}</Typography>
+          </Box>
           {props.logo && <Logo />}
-
           <NavLinks
             handleClick={handleMenuItemClick}
             tabs={isSmall ? [] : props.tabs}

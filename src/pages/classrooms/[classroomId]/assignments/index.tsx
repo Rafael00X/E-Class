@@ -17,7 +17,7 @@ export default function AssignmentsPage(props: AssignmentPageProps) {
     { text: "People", url: `/classrooms/${classroom.id}/people` },
   ];
   return (
-    <Layout logo={false} tabs={tabs}>
+    <Layout tabs={tabs} title={classroom.name}>
       <h1>Assignments of {classroom.name}</h1>
     </Layout>
   );

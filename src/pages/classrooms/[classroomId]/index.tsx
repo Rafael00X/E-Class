@@ -20,7 +20,7 @@ export default function ClassroomPage(props: ClassroomProps) {
   console.log(classroom);
   if (!classroom) throw new Error("Classroom not found");
   return (
-    <Layout logo={false} tabs={tabs}>
+    <Layout tabs={tabs} title={classroom.name}>
       <h1>{classroom.name}</h1>
       {classroom.assignments?.map((assignment) => (
         <AssignmentCard key={assignment.id} assignment={assignment} />

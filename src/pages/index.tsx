@@ -17,7 +17,7 @@ export default function HomePage(props: HomeProps) {
   const user = props.user;
   const isMedium = useMediaQuery("(min-width:900px)");
   return (
-    <Layout logo={true} tabs={[]}>
+    <Layout logo tabs={[]}>
       <Box sx={{ display: "flex" }}>
         <Box p={2} sx={{ width: "100%" }}>
           {user.classrooms && <ClassGrid classrooms={user.classrooms} />}
