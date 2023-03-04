@@ -1,5 +1,6 @@
 import { Assignment } from "@/types/assignment";
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -18,6 +19,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import React from "react";
 import moment from "moment";
+import { grey } from "@mui/material/colors";
 
 type AssignmentCardProps = {
   assignment: Assignment;
@@ -47,7 +49,9 @@ export default function AssignmentCard(props: AssignmentCardProps) {
       <CardActionArea onClick={handleClick}>
         <CardContent sx={{ display: "flex", alignItems: "center", height: 80 }}>
           <Box sx={{ ml: 2, mr: 4 }}>
-            <AssignmentIcon />
+            <Avatar sx={{ bgcolor: grey[600] }}>
+              <AssignmentIcon />
+            </Avatar>
           </Box>
           <Box sx={{ flexGrow: 1 }}>
             <Typography

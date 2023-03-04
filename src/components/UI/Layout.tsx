@@ -10,10 +10,10 @@ type LayoutProps = {
 };
 
 const Layout = (props: LayoutProps) => {
-  console.log("From layout", props.title);
   return (
     <>
       <Navbar logo={props.logo} tabs={props.tabs} title={props.title} />
+      <br />
       <Container>{props.children}</Container>
     </>
   );
