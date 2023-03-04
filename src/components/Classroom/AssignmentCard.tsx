@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import React from "react";
+import moment from "moment";
 
 type AssignmentCardProps = {
   assignment: Assignment;
@@ -34,11 +35,13 @@ const bull = (
 export default function AssignmentCard(props: AssignmentCardProps) {
   const { assignment } = props;
   const router = useRouter();
-  const handleClick = () =>
-    router.push(
-      `/classrooms/${assignment.classroomId}/assignments/${assignment.id}`
-    );
-  // router.push(`/assignments/${assignment.id}`);
+  const createdAt = moment(assignment.createdAt).format("MMM d");
+  const closedAt = assignment.closedAt
+    ? moment(assignment.closedAt).format("MMM d")
+    : undefined;
+  const link = `/classrooms/${assignment.classroomId}/assignments/${assignment.id}`;
+  const handleClick = () => router.push(link);
+
   return (
     <Card sx={{ width: "100%", display: "flex", alignItems: "center" }}>
       <CardActionArea onClick={handleClick}>
@@ -60,27 +63,28 @@ export default function AssignmentCard(props: AssignmentCardProps) {
               color="text.secondary"
               gutterBottom
             >
-              {assignment.createdAt + " "} {bull} {" " + assignment.closedAt}
+              {createdAt} {closedAt ? bull : null}
+              {closedAt ? ` Due on ${closedAt}` : ""}
             </Typography>
           </Box>
         </CardContent>
       </CardActionArea>
-      <VerticalMenu
-        assignmentId={assignment.id}
-        classroomId={assignment.classroomId}
-      />
+      <VerticalMenu link={link} />
     </Card>
   );
 }
 
-function VerticalMenu(props: { assignmentId: string; classroomId: string }) {
+function VerticalMenu(props: { link: string }) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
-  const link = `${window.location.origin}/classrooms/${props.classroomId}/assignments/${props.assignmentId}`;
+  let url = "";
+  if (typeof window !== "undefined") {
+    url = `${window.location.origin}${props.link}`;
+  }
 
   const copyLink = () => {
     navigator.clipboard
-      .writeText(link)
+      .writeText(url)
       .then(() => console.log("Text copied"))
       .catch((err) => console.log(err));
   };
