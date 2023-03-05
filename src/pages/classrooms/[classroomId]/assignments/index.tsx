@@ -1,11 +1,12 @@
 import AssignmentCard from "@/components/Classroom/AssignmentCard";
 import ClassroomLayout from "@/components/Layout/ClassroomLayout";
 import { classroomRepository } from "@/database/";
-import { Assignment, assignmentMapper } from "@/types/assignment";
+import { assignmentMapper } from "@/types/assignment";
 import { Classroom } from "@/types/classroom";
 import { userPreviewMapper } from "@/types/user";
-import { Typography } from "@mui/material";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
+import { useState } from "react";
 
 type AssignmentPageProps = {
   classroom: Classroom;
@@ -13,39 +14,89 @@ type AssignmentPageProps = {
 
 export default function AssignmentsPage(props: AssignmentPageProps) {
   const classroom = props.classroom;
-  const assignmentsWithTags: { [key: string]: Assignment[] } = {};
-  const assignmentsWithoutTags: Assignment[] = [];
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) =>
+    setTabIndex(newValue);
+
+  const assignmentsWithTags: { [key: string]: React.ReactNode[] } = {};
+  const assignmentsWithoutTags: React.ReactNode[] = [];
   classroom.assignments?.forEach((assignment) => {
     const tag = assignment.tag;
-    if (!tag) assignmentsWithoutTags.push(assignment);
+    if (!tag)
+      assignmentsWithoutTags.push(
+        <AssignmentCard key={assignment.id} assignment={assignment} />
+      );
     else if (assignmentsWithTags[tag])
-      assignmentsWithTags[tag].push(assignment);
-    else assignmentsWithTags[tag] = [assignment];
+      assignmentsWithTags[tag].push(
+        <AssignmentCard key={assignment.id} assignment={assignment} />
+      );
+    else
+      assignmentsWithTags[tag] = [
+        <AssignmentCard key={assignment.id} assignment={assignment} />,
+      ];
   });
-  return (
-    <ClassroomLayout title={classroom.name} classroomId={classroom.id}>
-      <div style={{ marginBottom: 25 }}>
-        {assignmentsWithoutTags.map((assignment) => (
-          <AssignmentCard key={assignment.id} assignment={assignment} />
-        ))}
-      </div>
-      {Object.entries(assignmentsWithTags).map(([name, assignments]) => {
-        const cards = assignments.map((assignment) => (
-          <AssignmentCard key={assignment.id} assignment={assignment} />
-        ));
+
+  const tags = Object.keys(assignmentsWithTags);
+  tags.unshift("All");
+
+  const allAssignments = (
+    <>
+      <div style={{ marginBottom: 25 }}>{assignmentsWithoutTags}</div>
+      {Object.entries(assignmentsWithTags).map(([tag, assignments]) => {
         return (
-          <div key={name} style={{ marginBottom: 25 }}>
+          <div key={tag} style={{ marginBottom: 25 }}>
             <Typography
               variant="h4"
               borderBottom={"1px solid"}
               sx={{ mb: 5, pb: 3 }}
             >
-              {name}
+              {tag}
             </Typography>
-            {cards}
+            {assignments}
           </div>
         );
       })}
+    </>
+  );
+
+  const getAssignmentsOfTag = (tag: string) => {
+    return (
+      <div key={tag} style={{ marginBottom: 25 }}>
+        <Typography
+          variant="h4"
+          borderBottom={"1px solid"}
+          sx={{ mb: 5, pb: 3 }}
+        >
+          {tag}
+        </Typography>
+        {assignmentsWithTags[tag]}
+      </div>
+    );
+  };
+
+  return (
+    <ClassroomLayout title={classroom.name} classroomId={classroom.id}>
+      <Box display={"flex"}>
+        <Box sx={{ mr: 5 }}>
+          <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            value={tabIndex}
+            onChange={handleChange}
+            aria-label="Vertical tabs example"
+          >
+            {tags.map((tag, index) => (
+              <Tab key={`vertical-tab-${index}`} label={tag} />
+            ))}
+          </Tabs>
+        </Box>
+        <Box flexGrow={1}>
+          {"Dropdown menu for tab selection if small screen"}
+          {tabIndex === 0 && allAssignments}
+          {tabIndex !== 0 && getAssignmentsOfTag(tags[tabIndex])}
+        </Box>
+      </Box>
     </ClassroomLayout>
   );
 }
