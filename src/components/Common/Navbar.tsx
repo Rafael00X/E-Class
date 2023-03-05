@@ -19,6 +19,7 @@ type NavbarProps = {
   logo?: boolean;
   tabs: { text: string; url: string }[];
   title?: string;
+  misc?: React.ReactNode;
 };
 
 export default function Navbar(props: NavbarProps) {
@@ -64,9 +65,10 @@ export default function Navbar(props: NavbarProps) {
             tabs={isSmall ? [] : props.tabs}
           />
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, display: "flex" }}>
+            {props.misc}
             <Tooltip title="Shrimp and Chorizo Paella">
-              <IconButton sx={{ p: 0 }}>
+              <IconButton sx={{ p: 0, ml: 3 }}>
                 <Avatar
                   alt="Profile Image"
                   src="https://th.bing.com/th/id/OIP.N8EwSZlfSY6jardurn1rFAHaEK?w=295&h=180&c=7&r=0&o=5&pid=1.7"
