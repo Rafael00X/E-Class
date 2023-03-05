@@ -1,8 +1,8 @@
-import Layout from "@/components/UI/Layout";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import prisma from "@/database/prisma";
 import PersonCard from "@/components/Classroom/PersonCard";
+import ClassroomLayout from "@/components/Layout/ClassroomLayout";
 
 type PeoplePageProps = {
   classroom: {
@@ -25,31 +25,21 @@ type PeoplePageProps = {
 
 export default function PeoplePage(props: PeoplePageProps) {
   const classroom = props.classroom;
-  const tabs = [
-    { text: "Stream", url: `/classrooms/${classroom.id}` },
-    { text: "Classwork", url: `/classrooms/${classroom.id}/assignments` },
-    { text: "People", url: `/classrooms/${classroom.id}/people` },
-  ];
-
   const students = classroom.students;
   const teachers = [classroom.admin, ...classroom.teachers];
 
   return (
-    <Layout tabs={tabs} title={classroom.name}>
-      <>
-        <Box>
-          <Typography variant="h4">Teachers</Typography>
-          {teachers.map((teacher) => (
-            <PersonCard key={teacher.id} user={teacher} />
-          ))}
-          <br />
-          <Typography variant="h4">Students</Typography>
-          {students.map((student) => (
-            <PersonCard key={student.id} user={student} />
-          ))}
-        </Box>
-      </>
-    </Layout>
+    <ClassroomLayout title={classroom.name} classroomId={classroom.id}>
+      <Typography variant="h4">Teachers</Typography>
+      {teachers.map((teacher) => (
+        <PersonCard key={teacher.id} user={teacher} />
+      ))}
+      <br />
+      <Typography variant="h4">Students</Typography>
+      {students.map((student) => (
+        <PersonCard key={student.id} user={student} />
+      ))}
+    </ClassroomLayout>
   );
 }
 
