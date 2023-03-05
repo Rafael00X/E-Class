@@ -6,9 +6,9 @@ export type Assignment = {
   id: string;
   name: string;
   description: string;
-  tag?: string;
+  tag: string | null;
   createdAt: string;
-  closedAt?: string;
+  closedAt: string | null;
   author?: UserPreview;
   classroomId: string;
   classroom?: Classroom;
@@ -19,9 +19,9 @@ export const assignmentMapper = (assignment: AssignmentPrisma) => {
     id: assignment.id,
     name: assignment.name,
     description: assignment.description,
-    tag: assignment.tag || undefined,
+    tag: assignment.tag || null,
     createdAt: assignment.createdAt.toISOString(),
-    closedAt: assignment.closedAt?.toISOString() || undefined,
+    closedAt: assignment.closedAt?.toISOString() || null,
     classroomId: assignment.classroomId,
   };
   return data;
