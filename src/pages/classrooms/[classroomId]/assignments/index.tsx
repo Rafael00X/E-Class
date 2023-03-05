@@ -4,7 +4,16 @@ import { classroomRepository } from "@/database/";
 import { assignmentMapper } from "@/types/assignment";
 import { Classroom } from "@/types/classroom";
 import { userPreviewMapper } from "@/types/user";
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 
@@ -78,7 +87,7 @@ export default function AssignmentsPage(props: AssignmentPageProps) {
   return (
     <ClassroomLayout title={classroom.name} classroomId={classroom.id}>
       <Box display={"flex"}>
-        <Box sx={{ mr: 5 }}>
+        <Box sx={{ mr: 5, display: { xs: "none", md: "block" } }}>
           <Tabs
             orientation="vertical"
             variant="scrollable"
@@ -87,12 +96,28 @@ export default function AssignmentsPage(props: AssignmentPageProps) {
             aria-label="Vertical tabs example"
           >
             {tags.map((tag, index) => (
-              <Tab key={`vertical-tab-${index}`} label={tag} />
+              <Tab key={`vertical-tab-${index}`} label={tag} wrapped />
             ))}
           </Tabs>
         </Box>
         <Box flexGrow={1}>
-          {"Dropdown menu for tab selection if small screen"}
+          <FormControl
+            fullWidth
+            sx={{ marginBottom: 5, display: { md: "none" } }}
+          >
+            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={tabIndex}
+              label="Age"
+              onChange={(e) => setTabIndex(e.target.value as number)}
+            >
+              {tags.map((tag, index) => (
+                <MenuItem value={index}>{tag}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           {tabIndex === 0 && allAssignments}
           {tabIndex !== 0 && getAssignmentsOfTag(tags[tabIndex])}
         </Box>
