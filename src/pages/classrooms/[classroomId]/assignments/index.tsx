@@ -94,8 +94,8 @@ export default function AssignmentsPage(props: AssignmentPageProps) {
             ))}
           </Tabs>
         </Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <Box sx={{ display: { md: "none" }, marginBottom: 5 }}>
+        <Box sx={{ flexGrow: 1, overflow: "hidden" }}>
+          <Box sx={{ display: { md: "none" }, marginBottom: 5, marginTop: 1 }}>
             <Select
               label="Subject"
               value={tabIndex}
