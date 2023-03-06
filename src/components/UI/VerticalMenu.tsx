@@ -66,7 +66,6 @@ export default function VerticalMenu(props: VerticalMenuProps) {
         aria-haspopup="true"
         onClick={handleToggle}
         color="inherit"
-        sx={{ height: 80 }}
       >
         {props.icon}
       </Button>

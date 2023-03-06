@@ -52,7 +52,7 @@ export default function AssignmentCard(props: AssignmentCardProps) {
     <Card>
       <CardActionArea onClick={handleClick}>
         <CardContent sx={{ display: "flex", alignItems: "center" }}>
-          <Box sx={{ ml: 2, mr: 4 }}>
+          <Box sx={{ mr: 2 }}>
             <Avatar sx={{ bgcolor: grey[600] }}>
               <AssignmentIcon />
             </Avatar>

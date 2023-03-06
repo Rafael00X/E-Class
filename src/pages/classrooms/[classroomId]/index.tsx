@@ -5,6 +5,10 @@ import { assignmentMapper } from "@/types/assignment";
 import { userPreviewMapper } from "@/types/user";
 import AssignmentCard from "@/components/Classroom/AssignmentCard";
 import ClassroomLayout from "@/components/Layout/ClassroomLayout";
+import { Box, Card, CardMedia } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import RoutinePreviewCard from "@/components/Home/RoutinePreviewCard";
+import AnnouncementForm from "@/components/Classroom/AnnouncementForm";
 
 type ClassroomProps = {
   classroom: Classroom;
@@ -15,9 +19,27 @@ export default function ClassroomPage(props: ClassroomProps) {
   if (!classroom) throw new Error("Classroom not found");
   return (
     <ClassroomLayout title={classroom.name} classroomId={classroom.id}>
-      {classroom.assignments?.map((assignment) => (
-        <AssignmentCard key={assignment.id} assignment={assignment} />
-      ))}
+      <Box sx={{ maxWidth: "1000px", m: "auto" }}>
+        <ImageCard classroom={classroom} />
+        <br />
+        <Box sx={{ display: "flex" }}>
+          <Box sx={{ mr: "20px", display: { xs: "none", md: "block" } }}>
+            <RoutinePreviewCard />
+          </Box>
+          <Box sx={{ flexGrow: 1, overflow: "hidden" }}>
+            <AnnouncementForm classroom={classroom} />
+            <br />
+            {classroom.assignments?.map((assignment) => {
+              return (
+                <>
+                  <AssignmentCard key={assignment.id} assignment={assignment} />
+                  <br />
+                </>
+              );
+            })}
+          </Box>
+        </Box>
+      </Box>
     </ClassroomLayout>
   );
 }
@@ -42,3 +64,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   };
 };
+
+function ImageCard(props: { classroom: Classroom }) {
+  const { classroom } = props;
+  return (
+    <Card sx={{ position: "relative" }}>
+      <CardMedia
+        component="img"
+        height="300"
+        image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0uVr0nP7iSipZ5MWgCk6xKpw9VAOW7daKNw&usqp=CAU"
+        alt="green iguana"
+      />
+      <Typography
+        variant="h4"
+        sx={{ position: "absolute", bottom: "15px", left: "20px" }}
+      >
+        {classroom.name}
+      </Typography>
+    </Card>
+  );
+}
