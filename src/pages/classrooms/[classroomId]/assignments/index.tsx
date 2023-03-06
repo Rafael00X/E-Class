@@ -5,9 +5,10 @@ import { classroomRepository } from "@/database/";
 import { assignmentMapper } from "@/types/assignment";
 import { Classroom } from "@/types/classroom";
 import { userPreviewMapper } from "@/types/user";
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Button, Tab, Tabs, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
 
 type AssignmentPageProps = {
   classroom: Classroom;
@@ -81,7 +82,7 @@ export default function AssignmentsPage(props: AssignmentPageProps) {
   return (
     <ClassroomLayout title={classroom.name} classroomId={classroom.id}>
       <Box sx={{ display: "flex" }}>
-        <Box sx={{ mr: 5, display: { xs: "none", md: "block" } }}>
+        <Box sx={{ mr: 5, mt: 9, display: { xs: "none", md: "block" } }}>
           <Tabs
             orientation="vertical"
             variant="scrollable"
@@ -95,7 +96,7 @@ export default function AssignmentsPage(props: AssignmentPageProps) {
           </Tabs>
         </Box>
         <Box sx={{ flexGrow: 1, overflow: "hidden" }}>
-          <Box sx={{ display: { md: "none" }, marginBottom: 5, marginTop: 1 }}>
+          <Box sx={{ display: { md: "none" }, mb: 5, mt: 1 }}>
             <Select
               label="Subject"
               value={tabIndex}
@@ -103,6 +104,7 @@ export default function AssignmentsPage(props: AssignmentPageProps) {
               callback={(v) => setTabIndex(v as number)}
             />
           </Box>
+          {tabIndex === 0 && <CreateAssignment />}
           {tabIndex === 0 && allAssignments}
           {tabIndex !== 0 && getAssignmentsOfTag(tags[tabIndex])}
         </Box>
@@ -131,3 +133,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   };
 };
+
+function CreateAssignment() {
+  return (
+    <Button variant="contained" sx={{ mb: "30px" }}>
+      Create <AddIcon />
+    </Button>
+  );
+}

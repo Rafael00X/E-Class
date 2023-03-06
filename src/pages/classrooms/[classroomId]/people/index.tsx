@@ -30,12 +30,17 @@ export default function PeoplePage(props: PeoplePageProps) {
 
   return (
     <ClassroomLayout title={classroom.name} classroomId={classroom.id}>
-      <Typography variant="h4">Teachers</Typography>
+      <Typography variant="h4" sx={{ borderBottom: "1px solid", mb: 1 }}>
+        Teachers
+      </Typography>
       {teachers.map((teacher) => (
         <PersonCard key={teacher.id} user={teacher} />
       ))}
       <br />
-      <Typography variant="h4">Students</Typography>
+      <br />
+      <Typography variant="h4" sx={{ borderBottom: "1px solid", mb: 1 }}>
+        Students
+      </Typography>
       {students.map((student) => (
         <PersonCard key={student.id} user={student} />
       ))}
