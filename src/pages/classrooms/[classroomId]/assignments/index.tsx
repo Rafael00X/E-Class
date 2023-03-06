@@ -1,19 +1,11 @@
 import AssignmentCard from "@/components/Classroom/AssignmentCard";
 import ClassroomLayout from "@/components/Layout/ClassroomLayout";
+import Select from "@/components/UI/Select";
 import { classroomRepository } from "@/database/";
 import { assignmentMapper } from "@/types/assignment";
 import { Classroom } from "@/types/classroom";
 import { userPreviewMapper } from "@/types/user";
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Tab,
-  Tabs,
-  Typography,
-} from "@mui/material";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 
@@ -46,15 +38,17 @@ export default function AssignmentsPage(props: AssignmentPageProps) {
       ];
   });
 
-  const tags = Object.keys(assignmentsWithTags);
-  tags.unshift("All");
+  const tags = ["All"].concat(Object.keys(assignmentsWithTags));
+  const items = tags.map((tag, index) => {
+    return { name: tag, value: index };
+  });
 
   const allAssignments = (
     <>
-      <div style={{ marginBottom: 25 }}>{assignmentsWithoutTags}</div>
+      <div style={{ marginBottom: 60 }}>{assignmentsWithoutTags}</div>
       {Object.entries(assignmentsWithTags).map(([tag, assignments]) => {
         return (
-          <div key={tag} style={{ marginBottom: 25 }}>
+          <div key={tag} style={{ marginBottom: 60 }}>
             <Typography
               variant="h4"
               borderBottom={"1px solid"}
@@ -86,7 +80,7 @@ export default function AssignmentsPage(props: AssignmentPageProps) {
 
   return (
     <ClassroomLayout title={classroom.name} classroomId={classroom.id}>
-      <Box display={"flex"}>
+      <Box sx={{ display: "flex" }}>
         <Box sx={{ mr: 5, display: { xs: "none", md: "block" } }}>
           <Tabs
             orientation="vertical"
@@ -100,24 +94,15 @@ export default function AssignmentsPage(props: AssignmentPageProps) {
             ))}
           </Tabs>
         </Box>
-        <Box flexGrow={1}>
-          <FormControl
-            fullWidth
-            sx={{ marginBottom: 5, display: { md: "none" } }}
-          >
-            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <Box sx={{ flexGrow: 1 }}>
+          <Box sx={{ display: { md: "none" }, marginBottom: 5 }}>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              label="Subject"
               value={tabIndex}
-              label="Age"
-              onChange={(e) => setTabIndex(e.target.value as number)}
-            >
-              {tags.map((tag, index) => (
-                <MenuItem value={index}>{tag}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              items={items}
+              callback={(v) => setTabIndex(v as number)}
+            />
+          </Box>
           {tabIndex === 0 && allAssignments}
           {tabIndex !== 0 && getAssignmentsOfTag(tags[tabIndex])}
         </Box>

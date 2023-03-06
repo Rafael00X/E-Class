@@ -49,35 +49,30 @@ export default function AssignmentCard(props: AssignmentCardProps) {
   ];
 
   return (
-    <Card sx={{ width: "100%", display: "flex", alignItems: "center" }}>
+    <Card>
       <CardActionArea onClick={handleClick}>
-        <CardContent sx={{ display: "flex", alignItems: "center", height: 80 }}>
+        <CardContent sx={{ display: "flex", alignItems: "center" }}>
           <Box sx={{ ml: 2, mr: 4 }}>
             <Avatar sx={{ bgcolor: grey[600] }}>
               <AssignmentIcon />
             </Avatar>
           </Box>
-          <Box sx={{ flexGrow: 1 }}>
-            <Typography
-              variant="subtitle2"
-              component="div"
-              sx={{ fontWeight: "bold" }}
-            >
+          <Box sx={{ flexGrow: 1, overflow: "hidden" }}>
+            <Typography variant="subtitle2" noWrap sx={{ fontWeight: "bold" }}>
               {`${assignment.author?.username} posted a new assignment: ${assignment.name}`}
             </Typography>
             <Typography
               variant="subtitle2"
-              sx={{ fontSize: 14 }}
               color="text.secondary"
-              gutterBottom
+              sx={{ fontSize: 14 }}
             >
               {createdAt} {closedAt ? bull : null}
               {closedAt ? ` Due on ${closedAt}` : ""}
             </Typography>
           </Box>
+          <VerticalMenu icon={<MoreVertIcon />} items={verticalMenuItems} />
         </CardContent>
       </CardActionArea>
-      <VerticalMenu icon={<MoreVertIcon />} items={verticalMenuItems} />
     </Card>
   );
 }

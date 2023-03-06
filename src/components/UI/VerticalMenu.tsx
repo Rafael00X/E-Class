@@ -19,7 +19,10 @@ export default function VerticalMenu(props: VerticalMenuProps) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
 
-  const handleToggle = () => {
+  const handleToggle = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
     setOpen((prevOpen) => !prevOpen);
   };
 
@@ -73,7 +76,6 @@ export default function VerticalMenu(props: VerticalMenuProps) {
         role={undefined}
         placement="bottom-start"
         transition
-        disablePortal
         sx={{ zIndex: 2 }}
       >
         {({ TransitionProps, placement }) => (
