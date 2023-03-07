@@ -24,7 +24,6 @@ const AssignmentLayout = (props: AssignmentLayoutProps) => {
   return (
     <>
       <Navbar tabs={tabs} title={title} />
-      <br />
       <Container>{children}</Container>
     </>
   );

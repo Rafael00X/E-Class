@@ -1,9 +1,9 @@
 import { Classroom } from "@/types/classroom";
-import { Avatar, Card, CardContent, Typography } from "@mui/material";
+import { Avatar, Box, Card, CardContent, Typography } from "@mui/material";
 
 export default function AnnouncementForm(props: { classroom: Classroom }) {
   return (
-    <Card>
+    <Card variant="outlined" sx={{ boxShadow: 3 }}>
       <CardContent sx={{ display: "flex", alignItems: "center" }}>
         <Avatar
           alt={props.classroom.name}

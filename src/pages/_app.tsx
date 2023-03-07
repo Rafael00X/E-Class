@@ -9,7 +9,6 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <ThemeProvider>
-        <Background />
         <Component {...pageProps} />
       </ThemeProvider>
     </>

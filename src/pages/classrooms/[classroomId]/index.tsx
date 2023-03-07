@@ -9,6 +9,7 @@ import { Box, Card, CardMedia } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import RoutinePreviewCard from "@/components/Home/RoutinePreviewCard";
 import AnnouncementForm from "@/components/Classroom/AnnouncementForm";
+import AssignmentsPreviewCard from "@/components/Home/AssignmentsPreviewCard";
 
 type ClassroomProps = {
   classroom: Classroom;
@@ -20,13 +21,15 @@ export default function ClassroomPage(props: ClassroomProps) {
   return (
     <ClassroomLayout title={classroom.name} classroomId={classroom.id}>
       <Box sx={{ maxWidth: "1000px", m: "auto" }}>
-        <ImageCard classroom={classroom} />
-        <br />
+        <Box sx={{ p: 1, mb: 2 }}>
+          <ImageCard classroom={classroom} />
+        </Box>
         <Box sx={{ display: "flex" }}>
-          <Box sx={{ mr: "20px", display: { xs: "none", md: "block" } }}>
+          <Box sx={{ mr: "20px", p: 1, display: { xs: "none", md: "block" } }}>
+            <AssignmentsPreviewCard />
             <RoutinePreviewCard />
           </Box>
-          <Box sx={{ flexGrow: 1, overflow: "hidden" }}>
+          <Box sx={{ flexGrow: 1, overflow: "hidden", p: 1 }}>
             <AnnouncementForm classroom={classroom} />
             <br />
             {classroom.assignments?.map((assignment) => {

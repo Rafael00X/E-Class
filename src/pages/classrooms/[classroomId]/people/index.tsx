@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import prisma from "@/database/prisma";
 import PersonCard from "@/components/Classroom/PersonCard";
@@ -30,20 +30,22 @@ export default function PeoplePage(props: PeoplePageProps) {
 
   return (
     <ClassroomLayout title={classroom.name} classroomId={classroom.id}>
-      <Typography variant="h4" sx={{ borderBottom: "1px solid", mb: 1 }}>
-        Teachers
-      </Typography>
-      {teachers.map((teacher) => (
-        <PersonCard key={teacher.id} user={teacher} />
-      ))}
-      <br />
-      <br />
-      <Typography variant="h4" sx={{ borderBottom: "1px solid", mb: 1 }}>
-        Students
-      </Typography>
-      {students.map((student) => (
-        <PersonCard key={student.id} user={student} />
-      ))}
+      <Box sx={{ maxWidth: "1000px", m: "auto" }}>
+        <Typography variant="h4" sx={{ borderBottom: "1px solid", mb: 1 }}>
+          Teachers
+        </Typography>
+        {teachers.map((teacher) => (
+          <PersonCard key={teacher.id} user={teacher} />
+        ))}
+        <br />
+        <br />
+        <Typography variant="h4" sx={{ borderBottom: "1px solid", mb: 1 }}>
+          Students
+        </Typography>
+        {students.map((student) => (
+          <PersonCard key={student.id} user={student} />
+        ))}
+      </Box>
     </ClassroomLayout>
   );
 }

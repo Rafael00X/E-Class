@@ -26,7 +26,7 @@ const assignments = [
 
 export default function AssignmentsPreviewCard() {
   return (
-    <Card sx={{ minWidth: 250, marginBottom: 5 }}>
+    <Card variant="outlined" sx={{ minWidth: 250, mb: 5, boxShadow: 3 }}>
       <CardContent>
         <Typography variant="h5" component="div">
           Assignments

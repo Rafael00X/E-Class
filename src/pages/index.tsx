@@ -19,17 +19,16 @@ export default function HomePage(props: HomeProps) {
   return (
     <HomeLayout>
       <Box sx={{ display: "flex" }}>
-        <Box p={2} sx={{ width: "100%" }}>
-          {user.classrooms && <ClassGrid classrooms={user.classrooms} />}
-        </Box>
         {isMedium && (
-          <Box p={2} pt={0} borderLeft="1px solid #bbb" mt={2}>
+          <Box p={2} mr={3}>
             <AssignmentsPreviewCard />
             <RoutinePreviewCard />
           </Box>
         )}
+        <Box p={2} sx={{ width: "100%" }}>
+          {user.classrooms && <ClassGrid classrooms={user.classrooms} />}
+        </Box>
       </Box>
-      <AddClassroomForm />
     </HomeLayout>
   );
 }

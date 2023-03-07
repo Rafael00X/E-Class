@@ -49,7 +49,7 @@ export default function AssignmentCard(props: AssignmentCardProps) {
   ];
 
   return (
-    <Card>
+    <Card variant="outlined">
       <CardActionArea onClick={handleClick}>
         <CardContent sx={{ display: "flex", alignItems: "center" }}>
           <Box sx={{ mr: 2 }}>

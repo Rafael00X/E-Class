@@ -17,7 +17,7 @@ const bull = (
 
 export default function RoutinePreviewCard() {
   return (
-    <Card sx={{ minWidth: 250 }}>
+    <Card variant="outlined" sx={{ minWidth: 250, boxShadow: 3 }}>
       <CardContent>
         <Typography variant="h5" component="div">
           Routine

@@ -18,7 +18,6 @@ const ClassroomLayout = (props: ClassroomLayoutProps) => {
   return (
     <>
       <Navbar tabs={tabs} title={title} />
-      <br />
       <Container>{children}</Container>
     </>
   );

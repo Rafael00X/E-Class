@@ -4,7 +4,7 @@ export default function PersonCard(props: {
   user: { id: string; username: string };
 }) {
   return (
-    <Card>
+    <Card sx={{ boxShadow: 0 }}>
       <CardContent sx={{ display: "flex", alignItems: "center" }}>
         <Box sx={{ ml: 2, mr: 4 }}>
           <Avatar />

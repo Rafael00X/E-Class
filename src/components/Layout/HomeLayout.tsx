@@ -24,7 +24,6 @@ export default function HomeLayout(props: HomeLayoutProps) {
         }
         logo
       />
-      <br />
       <Container>{children}</Container>
     </>
   );
