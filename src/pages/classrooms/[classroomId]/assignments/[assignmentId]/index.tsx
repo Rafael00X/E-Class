@@ -47,8 +47,14 @@ export default function AssignmentPage(props: AssignmentProps) {
       assignmentId={assignment.id}
       classroomId={assignment.classroom?.id as string}
     >
-      <Box display="flex">
-        <Box sx={{ flexGrow: 1, maxWidth: "900px", m: "auto" }}>
+      <Box
+        sx={{
+          display: { sm: "block", md: "flex" },
+          maxWidth: "1100px",
+          m: "auto",
+        }}
+      >
+        <Box sx={{ flexGrow: 1, m: "auto", mb: 5 }}>
           <Box
             sx={{
               display: "flex",
@@ -84,8 +90,15 @@ export default function AssignmentPage(props: AssignmentProps) {
           <br />
           <Typography variant="subtitle2">{assignment.description}</Typography>
         </Box>
-        <Box>
-          <Card sx={{ mr: 2, width: "300px", p: 3, boxShadow: 4 }}>
+        <Box sx={{ m: "auto" }}>
+          <Card
+            sx={{
+              width: { sm: "100%", md: "300px" },
+              p: 3,
+              boxShadow: 4,
+              ml: { sm: "auto", md: "30px" },
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
