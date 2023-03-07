@@ -14,11 +14,13 @@ import { useRouter } from "next/router";
 
 import NavDrawer from "./NavDrawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import Link from "next/link";
 
 type NavbarProps = {
   logo?: boolean;
   tabs: { text: string; url: string }[];
   title?: string;
+  url?: string;
   misc?: React.ReactNode;
 };
 
@@ -57,7 +59,12 @@ export default function Navbar(props: NavbarProps) {
           </Box>
           <NavDrawer isOpen={isOpen} setIsOpen={setIsOpen} />
           <Box sx={{ flexGrow: 0 }}>
-            <Typography variant="subtitle1">{props.title}</Typography>
+            <Link
+              href={props.url || ""}
+              style={{ color: "inherit", textDecoration: "none" }}
+            >
+              <Typography variant="subtitle1">{props.title}</Typography>
+            </Link>
           </Box>
           {props.logo && <Logo />}
           <NavLinks

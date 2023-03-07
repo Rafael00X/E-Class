@@ -10,14 +10,15 @@ type ClassroomLayoutProps = {
 
 const ClassroomLayout = (props: ClassroomLayoutProps) => {
   const { title, classroomId, children } = props;
+  const classUrl = `/classrooms/${classroomId}`;
   const tabs = [
-    { text: "Stream", url: `/classrooms/${classroomId}` },
-    { text: "Classwork", url: `/classrooms/${classroomId}/assignments` },
-    { text: "People", url: `/classrooms/${classroomId}/people` },
+    { text: "Stream", url: `${classUrl}` },
+    { text: "Classwork", url: `${classUrl}/assignments` },
+    { text: "People", url: `${classUrl}/people` },
   ];
   return (
     <>
-      <Navbar tabs={tabs} title={title} />
+      <Navbar tabs={tabs} title={title} url={classUrl} />
       <Container>{children}</Container>
     </>
   );

@@ -11,19 +11,20 @@ type AssignmentLayoutProps = {
 
 const AssignmentLayout = (props: AssignmentLayoutProps) => {
   const { title, assignmentId, classroomId, children } = props;
+  const classUrl = `/classrooms/${classroomId}`;
   const tabs = [
     {
       text: "Instructions",
-      url: `/classrooms/${classroomId}/assignments/${assignmentId}`,
+      url: `${classUrl}/assignments/${assignmentId}`,
     },
     {
       text: "Progress",
-      url: `/classrooms/${classroomId}/assignments/${assignmentId}/submissions`,
+      url: `${classUrl}/assignments/${assignmentId}/submissions`,
     },
   ];
   return (
     <>
-      <Navbar tabs={tabs} title={title} />
+      <Navbar tabs={tabs} title={title} url={classUrl} />
       <Container>{children}</Container>
     </>
   );
