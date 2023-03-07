@@ -2,10 +2,12 @@ import { GetServerSideProps } from "next";
 import { Assignment, assignmentMapper } from "@/types/assignment";
 import { getAssignmentById } from "@/database/repositories/assignment";
 import AssignmentLayout from "@/components/Layout/AssignmentLayout";
-import { Box, Button, Card, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, Typography } from "@mui/material";
 import moment from "moment";
 import VerticalMenu from "@/components/UI/VerticalMenu";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import { grey } from "@mui/material/colors";
 
 const bull = (
   <Box
@@ -50,45 +52,54 @@ export default function AssignmentPage(props: AssignmentProps) {
       <Box
         sx={{
           display: { sm: "block", md: "flex" },
-          maxWidth: "1100px",
+          maxWidth: "1200px",
           m: "auto",
         }}
       >
-        <Box sx={{ flexGrow: 1, m: "auto", mb: 5 }}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography variant="h4" gutterBottom>
-              {assignment.name}
-            </Typography>
-            <VerticalMenu icon={<MoreVertIcon />} items={verticalMenuItems} />
+        <Box sx={{ flexGrow: 1, m: "auto", mb: 6, display: "flex" }}>
+          <Box sx={{ mr: 2 }}>
+            <Avatar sx={{ bgcolor: grey[600] }}>
+              <AssignmentIcon />
+            </Avatar>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              pb: 2,
-              borderBottom: "1px solid",
-            }}
-          >
-            <Typography
-              variant="subtitle2"
-              color="text.secondary"
-              sx={{ fontSize: 14 }}
+          <Box sx={{ flexGrow: 1 }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
             >
-              {assignment.author?.username} {bull} {createdAt}
-            </Typography>
-            <Typography variant="subtitle2" sx={{ fontSize: 14 }}>
-              Due {closedAt}
+              <Typography variant="h4" gutterBottom>
+                {assignment.name}
+              </Typography>
+              <VerticalMenu icon={<MoreVertIcon />} items={verticalMenuItems} />
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                pb: 2,
+                borderBottom: "1px solid",
+              }}
+            >
+              <Typography
+                variant="subtitle2"
+                color="text.secondary"
+                sx={{ fontSize: 14 }}
+              >
+                {assignment.author?.username} {bull} {createdAt}
+              </Typography>
+              <Typography variant="subtitle2" sx={{ fontSize: 14 }}>
+                Due {closedAt}
+              </Typography>
+            </Box>
+            <br />
+            <Typography variant="subtitle2">
+              {assignment.description}
             </Typography>
           </Box>
-          <br />
-          <Typography variant="subtitle2">{assignment.description}</Typography>
         </Box>
         <Box sx={{ m: "auto" }}>
           <Card
