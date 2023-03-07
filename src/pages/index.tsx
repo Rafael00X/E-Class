@@ -6,7 +6,6 @@ import { User } from "@/types/user";
 import Box from "@mui/material/Box";
 import { GetServerSideProps } from "next";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import AddClassroomForm from "@/components/Form/AddClassroom";
 import HomeLayout from "@/components/Layout/HomeLayout";
 
 type HomeProps = {
