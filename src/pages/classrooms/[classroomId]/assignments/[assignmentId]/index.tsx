@@ -8,6 +8,7 @@ import VerticalMenu from "@/components/UI/VerticalMenu";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { grey } from "@mui/material/colors";
+import Submission from "@/components/Assignment/Submission";
 
 const bull = (
   <Box
@@ -56,7 +57,7 @@ export default function AssignmentPage(props: AssignmentProps) {
           m: "auto",
         }}
       >
-        <Box sx={{ flexGrow: 1, m: "auto", mb: 6, display: "flex" }}>
+        <Box sx={{ flexGrow: 1, m: "auto", mb: 6, mt: 0, display: "flex" }}>
           <Box sx={{ mr: 2 }}>
             <Avatar sx={{ bgcolor: grey[600] }}>
               <AssignmentIcon />
@@ -102,39 +103,10 @@ export default function AssignmentPage(props: AssignmentProps) {
           </Box>
         </Box>
         <Box sx={{ m: "auto" }}>
-          <Card
-            sx={{
-              width: { sm: "100%", md: "300px" },
-              p: 3,
-              boxShadow: 4,
-              ml: { sm: "auto", md: "30px" },
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Typography variant="h6">Your work</Typography>
-              <Typography variant="caption" color="GrayText" gutterBottom>
-                Turned in
-              </Typography>
-            </Box>
-            <br />
-            <Typography
-              color="text.secondary"
-              variant="subtitle2"
-              sx={{ textAlign: "center" }}
-            >
-              No work submitted
-            </Typography>
-            <br />
-            <Button fullWidth variant="outlined">
-              Submit
-            </Button>
-          </Card>
+          <Submission
+            assignmentId={assignment.id}
+            dueDate={assignment.closedAt}
+          />
         </Box>
       </Box>
     </AssignmentLayout>

@@ -1,0 +1,29 @@
+import {
+  createSubmission,
+  getSubmission,
+} from "@/database/repositories/submission";
+import { NextApiRequest, NextApiResponse } from "next";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<any>
+) {
+  const userId = req.headers["user_id"] as string;
+  let assignmentId: string;
+  switch (req.method) {
+    case "POST":
+      assignmentId = req.body.assignmentId;
+      const work = req.body.work;
+      return await createSubmission(work, assignmentId, userId);
+    case "GET":
+      assignmentId = req.query.assignmentId as string;
+      const submission = await getSubmission(assignmentId, userId);
+      return res.status(200).json({ submission });
+    case "DELETE":
+      assignmentId = req.query.assignmentId as string;
+      await getSubmission(assignmentId, userId);
+      return res.status(400).json({ message: "Unsubmitted successfully" });
+    default:
+      return res.status(400).json({ message: "Invalid request" });
+  }
+}

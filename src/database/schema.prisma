@@ -22,6 +22,7 @@ model User {
   studentClassroomIds String[]     @default([]) @db.ObjectId
   studentClassrooms   Classroom[]  @relation(fields: [studentClassroomIds], references: [id], name: "student")
   assignments         Assignment[]
+  submissions         Submission[]
 }
 
 model Classroom {
@@ -39,14 +40,25 @@ model Classroom {
 }
 
 model Assignment {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   tag         String?
-  createdAt   DateTime  @default(now())
+  createdAt   DateTime     @default(now())
   closedAt    DateTime?
-  authorId    String    @db.ObjectId
-  author      User      @relation(fields: [authorId], references: [id])
-  classroomId String    @db.ObjectId
-  classroom   Classroom @relation(fields: [classroomId], references: [id])
+  authorId    String       @db.ObjectId
+  author      User         @relation(fields: [authorId], references: [id])
+  classroomId String       @db.ObjectId
+  classroom   Classroom    @relation(fields: [classroomId], references: [id])
+  submissions Submission[]
+}
+
+model Submission {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  work         String[]
+  createdAt    DateTime   @default(now())
+  studentId    String     @db.ObjectId
+  student      User       @relation(fields: [studentId], references: [id])
+  assignmentId String     @db.ObjectId
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
 }
