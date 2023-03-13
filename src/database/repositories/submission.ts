@@ -23,7 +23,7 @@ export const createSubmission = async (
 };
 
 export const deleteSubmission = async (submissionId: string) => {
-  prisma.submission.delete({
+  return await prisma.submission.delete({
     where: {
       id: submissionId,
     },

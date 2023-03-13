@@ -6,6 +6,9 @@ import {
   deleteSubmission,
   getSubmission,
 } from "@/modules/client/fetch";
+import Modal from "../UI/Modal";
+import AddFileForm from "../Form/AddFileForm";
+import IconButton from "@mui/material/IconButton";
 
 export default function Submission(props: {
   assignmentId: string;
@@ -14,9 +17,12 @@ export default function Submission(props: {
   const { assignmentId, dueDate } = props;
   const [values, setValues] = useState<string[]>([]);
   const [submission, setSubmission] = useState<any>(null);
+  const [isOpen, setIsOpen] = useState(false);
+
   const isMissing = !!dueDate && new Date(dueDate) > new Date() && !submission;
   const isDue = !!dueDate && new Date(dueDate) < new Date() && !submission;
-  const isDone = !!submission;
+  const isSubmitted = !!submission;
+
   useEffect(() => {
     getSubmission(assignmentId)
       .then((res) => {
@@ -26,23 +32,52 @@ export default function Submission(props: {
       .catch((err) => console.log(err));
   }, []);
 
+  const handleAdd = (work: string) => {
+    setValues((p) => [...p, work]);
+    setIsOpen(false);
+  };
+
+  const handleRemove = (value: string) => {
+    setValues((p) => p.filter((w) => w !== value));
+  };
+
   const handleSubmit = () => {
-    createSubmission(submission.work, assignmentId)
+    createSubmission(values, assignmentId)
       .then((res) => {
         setSubmission(res);
-        console.log(res);
       })
       .catch((err) => console.log(err));
   };
 
   const handleUnsubmit = () => {
-    deleteSubmission(assignmentId)
+    console.log(submission.id, " from Submission.tsx");
+    deleteSubmission(submission.id)
       .then((res) => {
         setSubmission(null);
         console.log(res);
       })
       .catch((err) => console.log(err));
   };
+
+  const work =
+    values.length !== 0 ? (
+      values.map((value) => (
+        <WorkCard
+          key={value}
+          work={value}
+          isEditable={!submission}
+          handleRemove={handleRemove}
+        />
+      ))
+    ) : (
+      <Typography
+        color="text.secondary"
+        variant="subtitle2"
+        sx={{ textAlign: "center" }}
+      >
+        No work submitted
+      </Typography>
+    );
 
   return (
     <Card
@@ -61,7 +96,7 @@ export default function Submission(props: {
         }}
       >
         <Typography variant="h6">Your work</Typography>
-        {isDone && (
+        {isSubmitted && (
           <Typography variant="caption" color="forestgreen">
             Turned In
           </Typography>
@@ -73,22 +108,23 @@ export default function Submission(props: {
         )}
       </Box>
       <br />
-      {values.length === 0 && (
-        <Typography
-          color="text.secondary"
-          variant="subtitle2"
-          sx={{ textAlign: "center" }}
+      {work}
+      <br />
+      <Modal open={isOpen} handleClose={() => setIsOpen(false)}>
+        <div>
+          <AddFileForm callback={handleAdd} />
+        </div>
+      </Modal>
+      {!isSubmitted && (
+        <Button
+          fullWidth
+          variant="outlined"
+          onClick={() => setIsOpen(true)}
+          sx={{ mb: 1 }}
         >
-          No work submitted
-        </Typography>
+          <AddIcon fontSize="small" /> Add file
+        </Button>
       )}
-      {values.length !== 0 &&
-        values.map((value, index) => <WorkCard key={index} work={value} />)}
-      <br />
-      <Button fullWidth variant="outlined">
-        <AddIcon fontSize="small" /> Add file
-      </Button>
-      <br />
       <br />
       <Button
         fullWidth
@@ -101,26 +137,29 @@ export default function Submission(props: {
   );
 }
 
-function WorkCard(props: { work: string }) {
+function WorkCard(props: {
+  work: string;
+  isEditable: boolean;
+  handleRemove: (value: string) => void;
+}) {
+  const { work, isEditable, handleRemove } = props;
   return (
-    <Card elevation={0} sx={{ overflow: "hidden", p: 1 }}>
-      <Typography noWrap>{props.work}</Typography>
+    <Card
+      elevation={0}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        overflow: "hidden",
+        p: 1,
+      }}
+    >
+      <Typography noWrap>{work}</Typography>
+      {isEditable && (
+        <IconButton onClick={() => handleRemove(work)}>
+          <AddIcon fontSize="small" />
+        </IconButton>
+      )}
     </Card>
   );
 }
-
-// function SubmitButton(props: { callback: () => void }) {
-//   return (
-//     <Button fullWidth variant="contained" onClick={() => props.callback()}>
-//       Submit
-//     </Button>
-//   );
-// }
-
-// function UnsubmitButton(props: { callback: () => void }) {
-//   return (
-//     <Button fullWidth variant="contained" onClick={() => props.callback()}>
-//       Unsubmit
-//     </Button>
-//   );
-// }

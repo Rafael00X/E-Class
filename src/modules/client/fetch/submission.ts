@@ -15,12 +15,14 @@ export const createSubmission = async (
   return data;
 };
 
-export const deleteSubmission = async (assignmentId: string) => {
-  const res = await fetch(`/api/submissions?assignmentId=${assignmentId}`, {
+export const deleteSubmission = async (submissionId: string) => {
+  console.log(submissionId, "from deleteSubmission fetch");
+  const res = await fetch(`/api/submissions`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({ submissionId }),
   });
   if (res.status === 401) throw new Error("Not authorized");
   if (!res.ok) throw new Error("Server error");
