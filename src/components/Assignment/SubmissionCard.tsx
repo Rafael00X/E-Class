@@ -1,5 +1,6 @@
 import { Card, Box, Typography, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
 import {
   createSubmission,
@@ -10,7 +11,7 @@ import Modal from "../UI/Modal";
 import AddFileForm from "../Form/AddFileForm";
 import IconButton from "@mui/material/IconButton";
 
-export default function Submission(props: {
+export default function SubmissionCard(props: {
   assignmentId: string;
   dueDate: string | null;
 }) {
@@ -44,17 +45,15 @@ export default function Submission(props: {
   const handleSubmit = () => {
     createSubmission(values, assignmentId)
       .then((res) => {
-        setSubmission(res);
+        setSubmission(res.submission);
       })
       .catch((err) => console.log(err));
   };
 
   const handleUnsubmit = () => {
-    console.log(submission.id, " from Submission.tsx");
     deleteSubmission(submission.id)
       .then((res) => {
         setSubmission(null);
-        console.log(res);
       })
       .catch((err) => console.log(err));
   };
@@ -157,7 +156,7 @@ function WorkCard(props: {
       <Typography noWrap>{work}</Typography>
       {isEditable && (
         <IconButton onClick={() => handleRemove(work)}>
-          <AddIcon fontSize="small" />
+          <CloseIcon fontSize="small" />
         </IconButton>
       )}
     </Card>

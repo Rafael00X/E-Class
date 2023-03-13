@@ -16,7 +16,7 @@ export default async function handler(
       assignmentId = req.body.assignmentId;
       const work = req.body.work;
       const newSubmission = await createSubmission(work, assignmentId, userId);
-      return res.status(201).json({ newSubmission });
+      return res.status(201).json({ submission: newSubmission });
     case "GET":
       assignmentId = req.query.assignmentId as string;
       const submission = await getSubmission(assignmentId, userId);

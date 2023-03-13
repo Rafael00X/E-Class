@@ -8,7 +8,7 @@ import VerticalMenu from "@/components/UI/VerticalMenu";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { grey } from "@mui/material/colors";
-import Submission from "@/components/Assignment/Submission";
+import SubmissionCard from "@/components/Assignment/SubmissionCard";
 
 const bull = (
   <Box
@@ -103,7 +103,7 @@ export default function AssignmentPage(props: AssignmentProps) {
           </Box>
         </Box>
         <Box sx={{ m: "auto" }}>
-          <Submission
+          <SubmissionCard
             assignmentId={assignment.id}
             dueDate={assignment.closedAt}
           />

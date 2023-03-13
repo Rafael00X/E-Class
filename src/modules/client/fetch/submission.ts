@@ -16,7 +16,6 @@ export const createSubmission = async (
 };
 
 export const deleteSubmission = async (submissionId: string) => {
-  console.log(submissionId, "from deleteSubmission fetch");
   const res = await fetch(`/api/submissions`, {
     method: "DELETE",
     headers: {
