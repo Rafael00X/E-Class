@@ -21,12 +21,12 @@ export default function SubmissionCard(props: {
   const [isOpen, setIsOpen] = useState(false);
 
   const isMissing = !!dueDate && new Date(dueDate) > new Date() && !submission;
-  const isDue = !!dueDate && new Date(dueDate) < new Date() && !submission;
   const isSubmitted = !!submission;
 
   useEffect(() => {
     getSubmission(assignmentId)
       .then((res) => {
+        if (!res.submission) return;
         setSubmission(res.submission);
         setValues(res.submission.work);
       })
