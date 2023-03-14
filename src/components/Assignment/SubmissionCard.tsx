@@ -110,9 +110,7 @@ export default function SubmissionCard(props: {
       {work}
       <br />
       <Modal open={isOpen} handleClose={() => setIsOpen(false)}>
-        <div>
-          <AddFileForm callback={handleAdd} />
-        </div>
+        <AddFileForm callback={handleAdd} />
       </Modal>
       {!isSubmitted && (
         <Button

@@ -9,6 +9,9 @@ import { Box, Button, Tab, Tabs, Typography } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import AddAssignmentForm from "@/components/Form/AddAssignmentForm";
+import Modal from "@/components/UI/Modal";
+import { createAssignment } from "@/modules/client/fetch/assignment";
 
 type AssignmentPageProps = {
   classroom: Classroom;
@@ -104,7 +107,7 @@ export default function AssignmentsPage(props: AssignmentPageProps) {
               callback={(v) => setTabIndex(v as number)}
             />
           </Box>
-          {tabIndex === 0 && <CreateAssignment />}
+          {tabIndex === 0 && <CreateAssignment classroomId={classroom.id} />}
           {tabIndex === 0 && allAssignments}
           {tabIndex !== 0 && getAssignmentsOfTag(tags[tabIndex])}
         </Box>
@@ -134,10 +137,31 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-function CreateAssignment() {
+function CreateAssignment(props: { classroomId: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleAdd = (values: {
+    name: string;
+    desc: string;
+    closedAt: Date | null;
+  }) => {
+    createAssignment(
+      values.name,
+      values.desc,
+      values.closedAt,
+      props.classroomId
+    );
+  };
+  const handleClick = () => setIsOpen(true);
   return (
-    <Button variant="contained" sx={{ mb: "30px" }}>
-      Create <AddIcon />
-    </Button>
+    <div>
+      <Modal open={isOpen} handleClose={() => setIsOpen(false)}>
+        <AddAssignmentForm callback={handleAdd} />
+      </Modal>
+      <div>
+        <Button variant="contained" sx={{ mb: "30px" }} onClick={handleClick}>
+          Create <AddIcon />
+        </Button>
+      </div>
+    </div>
   );
 }

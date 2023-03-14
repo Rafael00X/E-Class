@@ -1,6 +1,5 @@
 import React, { JSXElementConstructor, ReactElement } from "react";
 import { Modal as MuiModal } from "@mui/material";
-import { JsxElement } from "typescript";
 
 export default function Modal(props: {
   open: boolean;
@@ -14,7 +13,7 @@ export default function Modal(props: {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      {props.children}
+      <div>{props.children}</div>
     </MuiModal>
   );
 }

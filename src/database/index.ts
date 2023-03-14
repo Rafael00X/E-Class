@@ -1,3 +1,4 @@
-export * as userRepository from "./repositories/user";
+export * as assignmentRepository from "./repositories/assignment";
 export * as classroomRepository from "./repositories/classroom";
-export * as courseRepository from "./repositories/course";
+export * as submissionRepository from "./repositories/submission";
+export * as userRepository from "./repositories/user";
