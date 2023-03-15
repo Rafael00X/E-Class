@@ -142,14 +142,15 @@ function CreateAssignment(props: { classroomId: string }) {
   const handleAdd = (values: {
     name: string;
     desc: string;
-    closedAt: Date | null;
+    closedAt: string;
   }) => {
     createAssignment(
       values.name,
       values.desc,
-      values.closedAt,
+      new Date(values.closedAt),
       props.classroomId
     );
+    setIsOpen(false);
   };
   const handleClick = () => setIsOpen(true);
   return (

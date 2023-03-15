@@ -12,10 +12,10 @@ const style = {
   p: 4,
 };
 
-const initialState: { name: string; desc: string; closedAt: Date | null } = {
+const initialState = {
   name: "",
   desc: "",
-  closedAt: null,
+  closedAt: "",
 };
 
 export default function AddAssignmentForm(props: {
@@ -58,7 +58,7 @@ export default function AddAssignmentForm(props: {
         />
         <br />
         <TextField
-          type="date"
+          type="datetime-local"
           label="Closed At"
           variant="outlined"
           name="closedAt"

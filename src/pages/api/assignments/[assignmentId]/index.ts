@@ -7,16 +7,11 @@ export default async function handler(
 ) {
   const userId = req.headers["user_id"] as string;
   switch (req.method) {
-    case "POST":
-      const { name, description, closedAt, classroomId, tag } = req.body;
+    case "DELETE":
+      const assignmentId = req.query.assignmentId as string;
 
-      const assignment = await assignmentRepository.createAssignment(
-        name,
-        userId,
-        classroomId,
-        description,
-        tag,
-        closedAt
+      const assignment = await assignmentRepository.deleteAssignment(
+        assignmentId
       );
       return res.status(201).json({ assignment });
 

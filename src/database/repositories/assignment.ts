@@ -50,3 +50,11 @@ export const createAssignment = async (
     },
   });
 };
+
+export const deleteAssignment = async (id: string) => {
+  return await prisma.assignment.delete({
+    where: {
+      id,
+    },
+  });
+};
