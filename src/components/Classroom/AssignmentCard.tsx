@@ -50,7 +50,7 @@ export default function AssignmentCard(props: AssignmentCardProps) {
 
   return (
     <Card variant="outlined">
-      <CardActionArea onClick={handleClick}>
+      <CardActionArea href="javascript:void(0);" onClick={handleClick}>
         <CardContent sx={{ display: "flex", alignItems: "center" }}>
           <Box sx={{ mr: 2 }}>
             <Avatar sx={{ bgcolor: grey[600] }}>
