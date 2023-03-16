@@ -14,6 +14,7 @@ import React from "react";
 import moment from "moment";
 import { grey } from "@mui/material/colors";
 import VerticalMenu from "../UI/VerticalMenu";
+import { deleteAssignment } from "@/modules/client/fetch/assignment";
 
 type AssignmentCardProps = {
   assignment: Assignment;
@@ -31,26 +32,17 @@ const bull = (
 export default function AssignmentCard(props: AssignmentCardProps) {
   const { assignment } = props;
   const router = useRouter();
-  const createdAt = moment(assignment.createdAt).format("MMM d");
+  const createdAt = moment(assignment.createdAt).format("MMM D");
   const closedAt = assignment.closedAt
-    ? moment(assignment.closedAt).format("MMM d")
+    ? moment(assignment.closedAt).format("MMM D")
     : undefined;
   const link = `/classrooms/${assignment.classroomId}/assignments/${assignment.id}`;
 
   const handleClick = () => router.push(link);
-  const handleCopyLink = () => {
-    const url = window.location.origin + link;
-    navigator.clipboard.writeText(url);
-  };
-
-  const verticalMenuItems = [
-    { text: "Copy Link", onClick: handleCopyLink },
-    { text: "Edit", onClick: () => {} },
-  ];
 
   return (
     <Card variant="outlined">
-      <CardActionArea href="javascript:void(0);" onClick={handleClick}>
+      <CardActionArea onClick={handleClick}>
         <CardContent sx={{ display: "flex", alignItems: "center" }}>
           <Box sx={{ mr: 2 }}>
             <Avatar sx={{ bgcolor: grey[600] }}>
@@ -70,7 +62,6 @@ export default function AssignmentCard(props: AssignmentCardProps) {
               {closedAt ? ` Due on ${closedAt}` : ""}
             </Typography>
           </Box>
-          <VerticalMenu icon={<MoreVertIcon />} items={verticalMenuItems} />
         </CardContent>
       </CardActionArea>
     </Card>

@@ -2,13 +2,15 @@ import { GetServerSideProps } from "next";
 import { Assignment, assignmentMapper } from "@/types/assignment";
 import { getAssignmentById } from "@/database/repositories/assignment";
 import AssignmentLayout from "@/components/Layout/AssignmentLayout";
-import { Avatar, Box, Button, Card, Typography } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import moment from "moment";
 import VerticalMenu from "@/components/UI/VerticalMenu";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { grey } from "@mui/material/colors";
 import SubmissionCard from "@/components/Assignment/SubmissionCard";
+import { useRouter } from "next/router";
+import { deleteAssignment } from "@/modules/client/fetch/assignment";
 
 const bull = (
   <Box
@@ -25,21 +27,28 @@ type AssignmentProps = {
 
 export default function AssignmentPage(props: AssignmentProps) {
   const { assignment } = props;
-  const createdAt = moment(assignment.createdAt).format("MMM d");
+  const router = useRouter();
+  const createdAt = moment(assignment.createdAt).format("MMM D");
   const closedAt = assignment.closedAt
-    ? moment(assignment.closedAt).format("MMM d")
+    ? moment(assignment.closedAt).format("MMM D")
     : undefined;
   const link = `/classrooms/${assignment.classroomId}/assignments/${assignment.id}`;
+  const assignmentLink = `/classrooms/${assignment.classroomId}/assignments`;
 
   const handleCopyLink = () => {
     const url = window.location.origin + link;
     navigator.clipboard.writeText(url);
   };
+  const handleDelete = () => {
+    deleteAssignment(assignment.id)
+      .then((res) => router.push(assignmentLink))
+      .catch((err) => console.log(err));
+  };
 
   const verticalMenuItems = [
     { text: "Copy Link", onClick: handleCopyLink },
     { text: "Edit", onClick: () => {} },
-    { text: "Delete", onClick: () => {} },
+    { text: "Delete", onClick: handleDelete },
   ];
 
   if (!assignment) return <h1>Assignment not found</h1>;
