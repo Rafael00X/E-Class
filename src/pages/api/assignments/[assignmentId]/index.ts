@@ -15,6 +15,10 @@ export default async function handler(
       );
       return res.status(201).json({ assignment });
 
+    case "PUT":
+      // TODO
+      return res.status(200).json({ message: "Edited" });
+
     default:
       return res.status(400).json({ message: "Invalid request" });
   }

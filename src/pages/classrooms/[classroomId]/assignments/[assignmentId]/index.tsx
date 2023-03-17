@@ -10,7 +10,13 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import { grey } from "@mui/material/colors";
 import SubmissionCard from "@/components/Assignment/SubmissionCard";
 import { useRouter } from "next/router";
-import { deleteAssignment } from "@/modules/client/fetch/assignment";
+import {
+  deleteAssignment,
+  editAssignment,
+} from "@/modules/client/fetch/assignment";
+import { useState } from "react";
+import EditAssignmentForm from "@/components/Form/EditAssignmentForm";
+import Modal from "@/components/UI/Modal";
 
 const bull = (
   <Box
@@ -27,6 +33,7 @@ type AssignmentProps = {
 
 export default function AssignmentPage(props: AssignmentProps) {
   const { assignment } = props;
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const createdAt = moment(assignment.createdAt).format("MMM D");
   const closedAt = assignment.closedAt
@@ -39,6 +46,17 @@ export default function AssignmentPage(props: AssignmentProps) {
     const url = window.location.origin + link;
     navigator.clipboard.writeText(url);
   };
+  const handleEdit = (values: {
+    name: string;
+    desc: string;
+    closedAt: string | null;
+  }) => {
+    const date = values.closedAt ? new Date(values.closedAt) : null;
+    editAssignment(values.name, values.desc, date, assignment.id)
+      .then((res) => console.log("Edited"))
+      .catch((err) => console.log(err));
+    setIsOpen(false);
+  };
   const handleDelete = () => {
     deleteAssignment(assignment.id)
       .then((res) => router.push(assignmentLink))
@@ -47,7 +65,7 @@ export default function AssignmentPage(props: AssignmentProps) {
 
   const verticalMenuItems = [
     { text: "Copy Link", onClick: handleCopyLink },
-    { text: "Edit", onClick: () => {} },
+    { text: "Edit", onClick: () => setIsOpen(true) },
     { text: "Delete", onClick: handleDelete },
   ];
 
@@ -66,6 +84,9 @@ export default function AssignmentPage(props: AssignmentProps) {
           m: "auto",
         }}
       >
+        <Modal open={isOpen} handleClose={() => setIsOpen(false)}>
+          <EditAssignmentForm assignment={assignment} callback={handleEdit} />
+        </Modal>
         <Box sx={{ flexGrow: 1, m: "auto", mb: 6, mt: 0, display: "flex" }}>
           <Box sx={{ mr: 2 }}>
             <Avatar sx={{ bgcolor: grey[600] }}>
