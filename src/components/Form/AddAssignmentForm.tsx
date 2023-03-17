@@ -1,4 +1,5 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
+import moment from "moment";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 const style = {
@@ -21,6 +22,7 @@ const initialState = {
 export default function AddAssignmentForm(props: {
   callback: (values: typeof initialState) => void;
 }) {
+  const { callback } = props;
   const [values, setValues] = useState(initialState);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setValues((p) => {
@@ -28,7 +30,7 @@ export default function AddAssignmentForm(props: {
     });
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    props.callback(values);
+    callback({ ...values, closedAt: moment(values.closedAt).format() });
   };
 
   return (

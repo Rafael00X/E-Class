@@ -75,7 +75,7 @@ export default function EditAssignmentForm(props: {
         />
         <br />
         <Button type="submit" variant="contained" fullWidth sx={{ mt: 4 }}>
-          Add
+          Edit
         </Button>
       </form>
     </Box>
