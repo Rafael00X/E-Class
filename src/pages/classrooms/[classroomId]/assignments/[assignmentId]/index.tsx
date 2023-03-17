@@ -53,7 +53,7 @@ export default function AssignmentPage(props: AssignmentProps) {
   }) => {
     const date = values.closedAt ? new Date(values.closedAt) : null;
     editAssignment(values.name, values.desc, date, assignment.id)
-      .then((res) => console.log("Edited"))
+      .then((res) => console.log(res.editedAssignment))
       .catch((err) => console.log(err));
     setIsOpen(false);
   };

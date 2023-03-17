@@ -1,4 +1,5 @@
 import { assignmentRepository } from "@/database";
+import prisma from "@/database/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -6,10 +7,9 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   const userId = req.headers["user_id"] as string;
+  const assignmentId = req.query.assignmentId as string;
   switch (req.method) {
     case "DELETE":
-      const assignmentId = req.query.assignmentId as string;
-
       const assignment = await assignmentRepository.deleteAssignment(
         assignmentId
       );
@@ -17,7 +17,21 @@ export default async function handler(
 
     case "PUT":
       // TODO
-      return res.status(200).json({ message: "Edited" });
+      const name = req.body.name as string;
+      const description = req.body.description as string;
+      const closedAt = req.body.closedAt as string;
+      const editedAssignment = await prisma.assignment.update({
+        where: {
+          id: assignmentId,
+        },
+        data: {
+          name,
+          description,
+          closedAt,
+        },
+      });
+
+      return res.status(200).json({ editedAssignment });
 
     default:
       return res.status(400).json({ message: "Invalid request" });
