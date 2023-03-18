@@ -92,7 +92,6 @@ export default function AddAssignmentForm(props: {
           value={values.tag}
           onChange={handleChange}
           fullWidth
-          required
         />
         <br />
         <Button type="submit" variant="contained" fullWidth sx={{ mt: 4 }}>

@@ -10,6 +10,8 @@ import Typography from "@mui/material/Typography";
 import RoutinePreviewCard from "@/components/Home/RoutinePreviewCard";
 import AnnouncementForm from "@/components/Classroom/AnnouncementForm";
 import AssignmentsPreviewCard from "@/components/Home/AssignmentsPreviewCard";
+import { getDateDiff } from "@/utils/dateHelper";
+import React from "react";
 
 type ClassroomProps = {
   classroom: Classroom;
@@ -26,7 +28,7 @@ export default function ClassroomPage(props: ClassroomProps) {
         </Box>
         <Box sx={{ display: "flex" }}>
           <Box sx={{ mr: "20px", p: 1, display: { xs: "none", md: "block" } }}>
-            <AssignmentsPreviewCard />
+            <AssignmentsPreviewCard assignments={classroom.assignments} />
             <RoutinePreviewCard />
           </Box>
           <Box sx={{ flexGrow: 1, overflow: "hidden", p: 1 }}>
@@ -34,10 +36,10 @@ export default function ClassroomPage(props: ClassroomProps) {
             <br />
             {classroom.assignments?.map((assignment) => {
               return (
-                <>
-                  <AssignmentCard key={assignment.id} assignment={assignment} />
+                <React.Fragment key={assignment.id}>
+                  <AssignmentCard assignment={assignment} />
                   <br />
-                </>
+                </React.Fragment>
               );
             })}
           </Box>
@@ -60,6 +62,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       return assignment;
     }),
   };
+  classroom.assignments?.sort((a, b) => getDateDiff(b.createdAt, a.createdAt));
 
   return {
     props: {

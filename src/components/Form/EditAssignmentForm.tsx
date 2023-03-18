@@ -64,16 +64,6 @@ export default function EditAssignmentForm(props: {
         />
         <br />
         <TextField
-          label="Tag"
-          variant="outlined"
-          name="tag"
-          value={values.tag}
-          onChange={handleChange}
-          fullWidth
-          required
-        />
-        <br />
-        <TextField
           type="datetime-local"
           label="Closed At"
           variant="outlined"
@@ -82,6 +72,15 @@ export default function EditAssignmentForm(props: {
           onChange={handleChange}
           fullWidth
           required
+        />
+        <br />
+        <TextField
+          label="Tag"
+          variant="outlined"
+          name="tag"
+          value={values.tag}
+          onChange={handleChange}
+          fullWidth
         />
         <br />
         <Button type="submit" variant="contained" fullWidth sx={{ mt: 4 }}>

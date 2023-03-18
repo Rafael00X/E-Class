@@ -1,10 +1,17 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import { Assignment } from "@/types/assignment";
+import { getDateDiff } from "@/utils/dateHelper";
+import moment from "moment";
+import { useRouter } from "next/router";
+import {
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  Typography,
+} from "@mui/material";
 
 const bull = (
   <Box
@@ -18,38 +25,69 @@ const bull = (
 const date = new Date();
 date.setDate(date.getDate() + 2);
 
-const assignments = [
-  { name: "Physics homework", deadline: date },
-  { name: "Maths assignment", deadline: date },
-  { name: "Computer homework", deadline: date },
-];
-
-export default function AssignmentsPreviewCard() {
+export default function AssignmentsPreviewCard(props: {
+  assignments: Assignment[] | undefined;
+}) {
+  const { assignments } = props;
+  const pending = assignments
+    ?.filter(
+      (assignment) =>
+        !!assignment.closedAt &&
+        new Date(assignment.closedAt).getTime() > Date.now() &&
+        !assignment.submissions
+    )
+    .sort((a, b) => getDateDiff(a.closedAt!, b.closedAt!))
+    .slice(0, 5);
+  let curdate = "";
   return (
-    <Card variant="outlined" sx={{ minWidth: 250, mb: 5, boxShadow: 3 }}>
+    <Card variant="outlined" sx={{ width: 320, mb: 5, boxShadow: 3 }}>
       <CardContent>
         <Typography variant="h5" component="div">
           Assignments
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Today
-        </Typography>
-        {assignments.map((assignment) => {
-          return (
-            <Typography variant="body2">
-              {bull} {assignment.name}
-            </Typography>
-          );
-        })}
-        {/* <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography> */}
+
+        {pending &&
+          pending.map((assignment) => {
+            const prevdate = curdate;
+            curdate = moment(assignment.closedAt, moment.ISO_8601)
+              .calendar()
+              .split(" ")[0];
+            return (
+              <React.Fragment key={assignment.id}>
+                {prevdate !== curdate && (
+                  <>
+                    <hr />
+                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                      {curdate}
+                    </Typography>
+                  </>
+                )}
+                <AssignmentLine key={assignment.id} assignment={assignment} />
+              </React.Fragment>
+            );
+          })}
       </CardContent>
       <CardActions>
         <Button size="small">View all</Button>
       </CardActions>
+    </Card>
+  );
+}
+
+function AssignmentLine(props: { assignment: Assignment }) {
+  const { assignment } = props;
+  const router = useRouter();
+  const handleClick = () =>
+    router.push(
+      `/classrooms/${assignment.classroomId}/assignments/${assignment.id}`
+    );
+  return (
+    <Card raised={false} sx={{ boxShadow: 0, overflow: "hidden" }}>
+      <CardActionArea sx={{ p: 1 }} onClick={handleClick}>
+        <Typography variant="body2" noWrap>
+          {bull} {moment(assignment.closedAt).format("LT")} - {assignment.name}
+        </Typography>
+      </CardActionArea>
     </Card>
   );
 }
