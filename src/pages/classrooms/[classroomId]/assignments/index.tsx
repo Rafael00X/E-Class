@@ -107,7 +107,7 @@ export default function AssignmentsPage(props: AssignmentPageProps) {
               callback={(v) => setTabIndex(v as number)}
             />
           </Box>
-          {tabIndex === 0 && <CreateAssignment classroomId={classroom.id} />}
+          {tabIndex === 0 && <CreateAssignment classroom={classroom} />}
           {tabIndex === 0 && allAssignments}
           {tabIndex !== 0 && getAssignmentsOfTag(tags[tabIndex])}
         </Box>
@@ -122,6 +122,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const classroom: Classroom = {
     name: result.name,
     id: result.id,
+    tags: result.tags,
     students: result.students,
     assignments: result.assignments.map((a) => {
       const assignment = assignmentMapper(a);
@@ -137,18 +138,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-function CreateAssignment(props: { classroomId: string }) {
+function CreateAssignment(props: { classroom: Classroom }) {
+  const { classroom } = props;
   const [isOpen, setIsOpen] = useState(false);
   const handleAdd = (values: {
     name: string;
     desc: string;
+    tag: string;
     closedAt: string;
   }) => {
     createAssignment(
       values.name,
       values.desc,
+      values.tag,
       new Date(values.closedAt),
-      props.classroomId
+      classroom.id
     );
     setIsOpen(false);
   };
@@ -156,7 +160,7 @@ function CreateAssignment(props: { classroomId: string }) {
   return (
     <div>
       <Modal open={isOpen} handleClose={() => setIsOpen(false)}>
-        <AddAssignmentForm callback={handleAdd} />
+        <AddAssignmentForm callback={handleAdd} tags={classroom.tags} />
       </Modal>
       <div>
         <Button variant="contained" sx={{ mb: "30px" }} onClick={handleClick}>

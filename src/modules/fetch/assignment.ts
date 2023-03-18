@@ -1,6 +1,7 @@
 export const createAssignment = async (
   name: string,
   description: string,
+  tag: string,
   closedAt: Date | null,
   classroomId: string
 ) => {
@@ -9,7 +10,7 @@ export const createAssignment = async (
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, description, closedAt, classroomId }),
+    body: JSON.stringify({ name, description, closedAt, tag, classroomId }),
   });
   if (res.status === 401) throw new Error("Not authorized");
   if (!res.ok) throw new Error("Server error");

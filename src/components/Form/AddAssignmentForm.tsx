@@ -1,6 +1,7 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
 import moment from "moment";
 import { ChangeEvent, FormEvent, useState } from "react";
+import Select from "../UI/Select";
 
 const style = {
   position: "absolute" as "absolute",
@@ -17,12 +18,14 @@ const initialState = {
   name: "",
   desc: "",
   closedAt: "",
+  tag: "",
 };
 
 export default function AddAssignmentForm(props: {
+  tags: string[] | undefined;
   callback: (values: typeof initialState) => void;
 }) {
-  const { callback } = props;
+  const { callback, tags } = props;
   const [values, setValues] = useState(initialState);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setValues((p) => {
@@ -32,6 +35,24 @@ export default function AddAssignmentForm(props: {
     e.preventDefault();
     callback({ ...values, closedAt: moment(values.closedAt).format() });
   };
+  const handleTagChange = (value: string | number) => {
+    if (typeof value === "string")
+      setValues((p) => {
+        return { ...p, tag: value };
+      });
+  };
+
+  const tagItems = [{ name: "None", value: "" }];
+  if (tags !== undefined)
+    tagItems.concat(
+      tags.map((tag) => {
+        return {
+          name: tag,
+          value: tag,
+        };
+      })
+    );
+  tagItems.unshift({ name: "None", value: "" });
 
   return (
     <Box sx={style}>
@@ -68,6 +89,12 @@ export default function AddAssignmentForm(props: {
           onChange={handleChange}
           fullWidth
           required
+        />
+        <Select
+          label="Tag"
+          value={values.tag}
+          items={tagItems}
+          callback={handleTagChange}
         />
         <br />
         <Button type="submit" variant="contained" fullWidth sx={{ mt: 4 }}>
