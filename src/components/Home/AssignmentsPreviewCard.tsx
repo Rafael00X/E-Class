@@ -34,7 +34,7 @@ export default function AssignmentsPreviewCard(props: {
       (assignment) =>
         !!assignment.closedAt &&
         new Date(assignment.closedAt).getTime() > Date.now() &&
-        !assignment.submissions
+        (!assignment.submissions || assignment.submissions.length === 0)
     )
     .sort((a, b) => getDateDiff(a.closedAt!, b.closedAt!))
     .slice(0, 5);

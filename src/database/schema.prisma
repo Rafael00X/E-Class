@@ -61,4 +61,6 @@ model Submission {
   student      User       @relation(fields: [studentId], references: [id])
   assignmentId String     @db.ObjectId
   assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  
+  @@unique([studentId, assignmentId])
 }

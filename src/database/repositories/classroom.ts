@@ -1,6 +1,6 @@
 import prisma from "../prisma";
 
-export const getClassroomById = async (classroomId: string) => {
+export const getClassroomById = async (classroomId: string, userId: string) => {
   return await prisma.classroom.findUniqueOrThrow({
     where: {
       id: classroomId,
@@ -10,6 +10,11 @@ export const getClassroomById = async (classroomId: string) => {
       assignments: {
         include: {
           author: true,
+          submissions: {
+            where: {
+              studentId: userId,
+            },
+          },
         },
       },
       students: {
