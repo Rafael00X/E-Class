@@ -22,11 +22,11 @@ export default function EditAssignmentForm(props: {
   const initialState = {
     name: assignment.name,
     desc: assignment.description,
+    tag: assignment.tag,
     closedAt: moment(assignment.closedAt, moment.ISO_8601).format(
       moment.HTML5_FMT.DATETIME_LOCAL
     ),
   };
-  console.log(assignment);
   const [values, setValues] = useState(initialState);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setValues((p) => {
@@ -58,6 +58,16 @@ export default function EditAssignmentForm(props: {
           variant="outlined"
           name="desc"
           value={values.desc}
+          onChange={handleChange}
+          fullWidth
+          required
+        />
+        <br />
+        <TextField
+          label="Tag"
+          variant="outlined"
+          name="tag"
+          value={values.tag}
           onChange={handleChange}
           fullWidth
           required

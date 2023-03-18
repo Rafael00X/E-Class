@@ -46,11 +46,16 @@ export default function AssignmentPage(props: AssignmentProps) {
   const handleEdit = (values: {
     name: string;
     desc: string;
+    tag: string | null;
     closedAt: string | null;
   }) => {
     const date = values.closedAt ? new Date(values.closedAt) : null;
-    editAssignment(values.name, values.desc, date, assignment.id)
-      .then((res) => setAssignment(res.editedAssignment))
+    editAssignment(values.name, values.desc, values.tag, date, assignment.id)
+      .then((res) =>
+        setAssignment((p) => {
+          return { ...p, ...res.editedAssignment };
+        })
+      )
       .catch((err) => console.log(err));
     setIsOpen(false);
   };

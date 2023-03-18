@@ -19,6 +19,7 @@ export default async function handler(
       // TODO
       const name = req.body.name as string;
       const description = req.body.description as string;
+      const tag = req.body.tag as string | null;
       const closedAt = req.body.closedAt as string;
       const editedAssignment = await prisma.assignment.update({
         where: {
@@ -27,9 +28,11 @@ export default async function handler(
         data: {
           name,
           description,
+          tag,
           closedAt,
         },
       });
+      console.log(editedAssignment);
 
       return res.status(200).json({ editedAssignment });
 
