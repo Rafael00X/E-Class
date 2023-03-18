@@ -5,12 +5,11 @@ import {
   encodeJwt,
   setTokenToCookieInNextApiResponse,
   getTokenFromCookieInNextApiRequest,
-} from "@/modules/server/auth";
+} from "@/modules/auth";
 import { userRepository } from "@/database";
-import { User } from "@prisma/client";
 
 type Data = {
-  user?: User;
+  user?: any;
   message?: string;
 };
 

@@ -1,4 +1,4 @@
-import { User } from "@/types/user";
+import { User } from "@prisma/client";
 import { SignJWT, jwtVerify } from "jose";
 
 const secret = new TextEncoder().encode(process.env.JWT_SECRET);
@@ -17,7 +17,7 @@ export const encodeJwt = async (user: User) => {
 export const decodeJwt = async (token: string) => {
   try {
     const { payload } = await jwtVerify(token, secret);
-    const user: User = {
+    const user = {
       id: payload.id as string,
       username: payload.username as string,
       email: payload.email as string,
