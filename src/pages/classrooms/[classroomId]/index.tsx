@@ -53,14 +53,12 @@ export default function ClassroomPage(props: ClassroomProps) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const classroomId = context.params?.classroomId as string;
   const userId = context.req.headers["user_id"] as string;
-  console.log(userId);
   const result = await getClassroomById(classroomId, userId);
   const classroom: Classroom = {
     name: result.name,
     id: result.id,
     students: result.students,
     assignments: result.assignments.map((a) => {
-      console.log(a);
       const assignment = assignmentMapper(a);
       assignment.author = userPreviewMapper(a.author);
       assignment.submissions = a.submissions;
