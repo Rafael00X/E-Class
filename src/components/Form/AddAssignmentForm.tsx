@@ -35,12 +35,6 @@ export default function AddAssignmentForm(props: {
     e.preventDefault();
     callback({ ...values, closedAt: moment(values.closedAt).format() });
   };
-  const handleTagChange = (value: string | number) => {
-    if (typeof value === "string")
-      setValues((p) => {
-        return { ...p, tag: value };
-      });
-  };
 
   const tagItems = [{ name: "None", value: "" }];
   if (tags !== undefined)
@@ -90,11 +84,14 @@ export default function AddAssignmentForm(props: {
           fullWidth
           required
         />
-        <Select
+        <TextField
           label="Tag"
+          variant="outlined"
+          name="tag"
           value={values.tag}
-          items={tagItems}
-          callback={handleTagChange}
+          onChange={handleChange}
+          fullWidth
+          required
         />
         <br />
         <Button type="submit" variant="contained" fullWidth sx={{ mt: 4 }}>
