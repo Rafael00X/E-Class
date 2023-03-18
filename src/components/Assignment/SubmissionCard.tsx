@@ -6,7 +6,7 @@ import {
   createSubmission,
   deleteSubmission,
   getSubmission,
-} from "@/modules/client/fetch";
+} from "@/modules/fetch";
 import Modal from "../UI/Modal";
 import AddFileForm from "../Form/AddFileForm";
 import IconButton from "@mui/material/IconButton";

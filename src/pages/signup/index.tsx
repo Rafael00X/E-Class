@@ -2,7 +2,7 @@ import LoginForm from "@/components/Signup/LoginForm";
 import RegisterForm from "@/components/Signup/RegisterForm";
 import Button from "@/components/UI/Button";
 import Card from "@/components/UI/Card";
-import { validateUser } from "@/modules/client/fetch";
+import { validateUser } from "@/modules/fetch";
 import { useState } from "react";
 
 const SignupPage = () => {

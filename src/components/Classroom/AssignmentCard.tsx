@@ -9,12 +9,9 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import React from "react";
 import moment from "moment";
 import { grey } from "@mui/material/colors";
-import VerticalMenu from "../UI/VerticalMenu";
-import { deleteAssignment } from "@/modules/client/fetch/assignment";
 
 type AssignmentCardProps = {
   assignment: Assignment;

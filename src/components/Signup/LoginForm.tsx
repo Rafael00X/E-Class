@@ -1,6 +1,6 @@
 import { useState } from "react";
 import InputField from "../UI/InputField";
-import { loginUser } from "@/modules/client/fetch";
+import { loginUser } from "@/modules/fetch";
 import { useRouter } from "next/router";
 
 const LoginForm = () => {

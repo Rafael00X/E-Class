@@ -10,10 +10,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import { grey } from "@mui/material/colors";
 import SubmissionCard from "@/components/Assignment/SubmissionCard";
 import { useRouter } from "next/router";
-import {
-  deleteAssignment,
-  editAssignment,
-} from "@/modules/client/fetch/assignment";
+import { deleteAssignment, editAssignment } from "@/modules/fetch";
 import { useState } from "react";
 import EditAssignmentForm from "@/components/Form/EditAssignmentForm";
 import Modal from "@/components/UI/Modal";

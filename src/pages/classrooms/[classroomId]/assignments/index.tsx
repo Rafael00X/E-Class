@@ -11,7 +11,7 @@ import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import AddAssignmentForm from "@/components/Form/AddAssignmentForm";
 import Modal from "@/components/UI/Modal";
-import { createAssignment } from "@/modules/client/fetch/assignment";
+import { createAssignment } from "@/modules/fetch";
 
 type AssignmentPageProps = {
   classroom: Classroom;
