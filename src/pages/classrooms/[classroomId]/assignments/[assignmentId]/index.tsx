@@ -32,7 +32,7 @@ type AssignmentProps = {
 };
 
 export default function AssignmentPage(props: AssignmentProps) {
-  const { assignment } = props;
+  const [assignment, setAssignment] = useState(props.assignment);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const createdAt = moment(assignment.createdAt).format("MMM D");
@@ -53,7 +53,7 @@ export default function AssignmentPage(props: AssignmentProps) {
   }) => {
     const date = values.closedAt ? new Date(values.closedAt) : null;
     editAssignment(values.name, values.desc, date, assignment.id)
-      .then((res) => console.log(res.editedAssignment))
+      .then((res) => setAssignment(res.editedAssignment))
       .catch((err) => console.log(err));
     setIsOpen(false);
   };
