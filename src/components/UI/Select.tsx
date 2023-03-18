@@ -1,4 +1,9 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select as MuiSelect,
+} from "@mui/material";
 
 type SelectMenuProps = {
   label: string;
@@ -7,22 +12,24 @@ type SelectMenuProps = {
   callback: (newValue: number | string) => void;
 };
 
-export default function MySelect(props: SelectMenuProps) {
+export default function Select(props: SelectMenuProps) {
   const { label, value, items, callback } = props;
   return (
     <FormControl fullWidth>
       <InputLabel id="demo-simple-select-label">{label}</InputLabel>
-      <Select
+      <MuiSelect
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={value}
         label={label}
         onChange={(e) => callback(e.target.value)}
       >
-        {items.map(({ name, value }) => (
-          <MenuItem value={value}>{name}</MenuItem>
+        {items.map(({ name, value }, index) => (
+          <MenuItem key={index} value={value}>
+            {name}
+          </MenuItem>
         ))}
-      </Select>
+      </MuiSelect>
     </FormControl>
   );
 }

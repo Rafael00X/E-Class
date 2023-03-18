@@ -93,9 +93,10 @@ export default function VerticalMenu(props: VerticalMenuProps) {
                   aria-labelledby="composition-button"
                   onKeyDown={handleListKeyDown}
                 >
-                  {props.items.map((item) => {
+                  {props.items.map((item, index) => {
                     return (
                       <MenuItem
+                        key={index}
                         onClick={(e) => {
                           item.onClick();
                           handleClose(e);
