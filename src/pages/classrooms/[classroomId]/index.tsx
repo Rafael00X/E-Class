@@ -7,9 +7,9 @@ import AssignmentCard from "@/components/Classroom/AssignmentCard";
 import ClassroomLayout from "@/components/Layout/ClassroomLayout";
 import { Box, Card, CardMedia } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import RoutinePreviewCard from "@/components/Home/RoutinePreviewCard";
+import RoutinePreviewCard from "@/components/Classroom/RoutinePreviewCard";
 import AnnouncementForm from "@/components/Classroom/AnnouncementForm";
-import AssignmentsPreviewCard from "@/components/Home/AssignmentsPreviewCard";
+import AssignmentsPreviewCard from "@/components/Classroom/AssignmentsPreviewCard";
 import { getDateDiff } from "@/utils/dateHelper";
 import React from "react";
 
