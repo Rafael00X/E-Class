@@ -4,9 +4,9 @@ import AddIcon from "@mui/icons-material/Add";
 import Container from "../UI/Container";
 import VerticalMenu from "../UI/VerticalMenu";
 import Navbar from "../Common/Navbar";
-import { Modal } from "@mui/material";
 import JoinClassroomForm from "../Form/JoinClassroomForm";
 import CreateClassroomForm from "../Form/CreateClassroomForm";
+import Modal from "../UI/Modal";
 
 type HomeLayoutProps = {
   children: React.ReactNode;
@@ -50,7 +50,7 @@ function JoinClassroomModal(props: { open: boolean; handleClose: () => void }) {
   return (
     <Modal
       open={props.open}
-      onClose={props.handleClose}
+      handleClose={props.handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
@@ -66,7 +66,7 @@ function CreateClassroomModal(props: {
   return (
     <Modal
       open={props.open}
-      onClose={props.handleClose}
+      handleClose={props.handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >

@@ -23,8 +23,8 @@ import { useRouter } from "next/router";
 const menuItemsList = [
   [
     { text: "Home", icon: <HomeIcon />, url: "/" },
-    { text: "Assignments", icon: <AssignmentIcon />, url: "/assignments" },
-    { text: "Routine", icon: <AccessTimeIcon />, url: "/routine" },
+    { text: "Todo - Review", icon: <AssignmentIcon />, url: "/todo/review" },
+    { text: "Todo - Submit", icon: <AccessTimeIcon />, url: "/todo/submit" },
   ],
   [
     { text: "My Activity", icon: <EventIcon />, url: "/my-activity" },
