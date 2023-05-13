@@ -19,6 +19,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EventIcon from "@mui/icons-material/Event";
 import { useRouter } from "next/router";
+import { logoutUser } from "@/modules/fetch";
 
 const menuItemsList = [
   [
@@ -44,6 +45,9 @@ export default function NavDrawer(props: DrawerMenuProps) {
 
   const handleLogout = () => {
     setIsOpen(false);
+    logoutUser()
+      .then((res) => router.push("/signup"))
+      .catch((err) => console.log(err));
   };
 
   const handleChangeRoute = (url: string) => {

@@ -43,3 +43,16 @@ export const validateUser = async () => {
   const data = await res.json();
   return data;
 };
+
+export const logoutUser = async () => {
+  const res = await fetch("/api/auth?task=logout", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (res.status === 400) throw new Error("Cookie not found");
+  if (!res.ok) throw new Error("Server error");
+  const data = await res.json();
+  return data;
+};

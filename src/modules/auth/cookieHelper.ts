@@ -25,6 +25,14 @@ export const getTokenFromCookieInNextRequest = (req: NextRequest) => {
   return token;
 };
 
+export const deleteCookieInNextApiResponse = (res: NextApiResponse) => {
+  const cookie = serialize(cookieName, "", {
+    maxAge: 0,
+    path: "/",
+  });
+  res.setHeader("Set-Cookie", cookie);
+};
+
 export const deleteCookieInNextResponse = (res: NextResponse) => {
   const cookie = serialize(cookieName, "", {
     maxAge: 0,

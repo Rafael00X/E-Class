@@ -5,6 +5,7 @@ import {
   encodeJwt,
   setTokenToCookieInNextApiResponse,
   getTokenFromCookieInNextApiRequest,
+  deleteCookieInNextApiResponse,
 } from "@/modules/auth";
 import { userRepository } from "@/database";
 
@@ -25,6 +26,8 @@ export default async function handler(
       return register(req, res);
     case "validate":
       return validate(req, res);
+    case "logout":
+      return logout(req, res);
     default:
       return res.status(400).json({ message: "Invalid request" });
   }
@@ -67,6 +70,15 @@ const validate = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     const user = await decodeJwt(token);
     if (!user) return res.status(401).json({ message: "Invalid jwt token" });
     res.status(200).json({ user });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const logout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  try {
+    deleteCookieInNextApiResponse(res);
+    res.status(200).json({ message: "Logged out" });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
