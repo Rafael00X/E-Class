@@ -13,24 +13,17 @@ import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
 
 import HomeIcon from "@mui/icons-material/Home";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import SettingsIcon from "@mui/icons-material/Settings";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import EventIcon from "@mui/icons-material/Event";
 import { useRouter } from "next/router";
 import { logoutUser } from "@/modules/fetch";
+import { useUserContext } from "@/contexts/UserContext";
 
 const menuItemsList = [
   [
     { text: "Home", icon: <HomeIcon />, url: "/" },
     { text: "Todo - Review", icon: <AssignmentIcon />, url: "/todo/review" },
     { text: "Todo - Submit", icon: <AccessTimeIcon />, url: "/todo/submit" },
-  ],
-  [
-    { text: "My Activity", icon: <EventIcon />, url: "/my-activity" },
-    { text: "Archived Classes", icon: <InboxIcon />, url: "/archived-classes" },
-    { text: "Settings", icon: <SettingsIcon />, url: "/settings" },
   ],
 ];
 
@@ -42,11 +35,15 @@ type DrawerMenuProps = {
 export default function NavDrawer(props: DrawerMenuProps) {
   const { isOpen, setIsOpen } = props;
   const router = useRouter();
+  const userContext = useUserContext();
 
   const handleLogout = () => {
     setIsOpen(false);
     logoutUser()
-      .then((res) => router.push("/signup"))
+      .then((res) => {
+        router.push("/signup");
+        userContext?.logout();
+      })
       .catch((err) => console.log(err));
   };
 
@@ -117,6 +114,7 @@ export default function NavDrawer(props: DrawerMenuProps) {
 }
 
 function ProfileCard() {
+  const user = useUserContext()?.user;
   return (
     <Card sx={{ maxWidth: 345, boxShadow: 0 }}>
       <CardHeader
@@ -126,8 +124,8 @@ function ProfileCard() {
             src="https://th.bing.com/th/id/OIP.N8EwSZlfSY6jardurn1rFAHaEK?w=295&h=180&c=7&r=0&o=5&pid=1.7"
           />
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="catto234@gmail.com"
+        title={user?.username}
+        subheader={user?.email}
       />
     </Card>
   );

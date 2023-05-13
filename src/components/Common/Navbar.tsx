@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import NavDrawer from "./NavDrawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Link from "next/link";
+import { useUserContext } from "@/contexts/UserContext";
 
 type NavbarProps = {
   logo?: boolean;
@@ -28,6 +29,9 @@ export default function Navbar(props: NavbarProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const router = useRouter();
   const isSmall = useMediaQuery("(max-width:1040px)");
+  const user = useUserContext()?.user;
+
+  console.log(user);
 
   const handleOpenNavDrawer = () => {
     setIsOpen(true);
@@ -74,7 +78,7 @@ export default function Navbar(props: NavbarProps) {
 
           <Box sx={{ flexGrow: 0, display: "flex" }}>
             {props.misc}
-            <Tooltip title="Shrimp and Chorizo Paella">
+            <Tooltip title={user?.username}>
               <IconButton sx={{ p: 0, ml: 3 }}>
                 <Avatar
                   alt="Profile Image"

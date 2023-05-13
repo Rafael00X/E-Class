@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import { loginUser } from "@/modules/fetch";
 import { useRouter } from "next/router";
+import { useUserContext } from "@/contexts/UserContext";
 
 const LoginForm = () => {
   const initialState = {
@@ -11,6 +12,7 @@ const LoginForm = () => {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
   const router = useRouter();
+  const userContext = useUserContext();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setValues((prevState) => {
@@ -21,7 +23,7 @@ const LoginForm = () => {
     e.preventDefault();
     loginUser(values.email, values.password)
       .then((data) => {
-        console.log(data);
+        userContext?.login(data.user);
         router.push("/");
       })
       .catch((err) => {

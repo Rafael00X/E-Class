@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 type User = {
   id: string;
   email: string;
-  name: string;
+  username: string;
 };
 
 type UserContextValue = {
@@ -28,6 +28,7 @@ export const UserProvider = (props: UserProviderProps) => {
   const login = (user: User) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
     setUser(user);
+    console.log(user);
   };
 
   const logout = () => {

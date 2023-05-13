@@ -3,6 +3,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { registerUser } from "@/modules/fetch";
 import { useRouter } from "next/router";
 import { Box, TextField, Button } from "@mui/material";
+import { useUserContext } from "@/contexts/UserContext";
 
 const RegisterForm = () => {
   const initialState = {
@@ -14,6 +15,7 @@ const RegisterForm = () => {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
   const router = useRouter();
+  const userContext = useUserContext();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setValues((prevState) => {
@@ -33,7 +35,7 @@ const RegisterForm = () => {
     }
     registerUser(values.name, values.email, values.password)
       .then((data) => {
-        console.log(data);
+        userContext?.login(data.user);
         router.push("/");
       })
       .catch((err) => {
