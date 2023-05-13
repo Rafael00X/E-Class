@@ -20,10 +20,10 @@ export default function JoinClassroomForm(props: { callback?: () => void }) {
     setValue(e.target.value);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (value.length !== 12) {
-      return setError("Classroom Id must be 12 digits");
-    }
-    setError("");
+    // if (value.length !== 12) {
+    //   return setError("Classroom Id must be 12 digits");
+    // }
+    // setError("");
 
     fetch("/api/classroom?task=enroll", {
       method: "POST",

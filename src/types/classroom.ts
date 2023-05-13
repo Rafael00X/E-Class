@@ -1,10 +1,11 @@
 import { Assignment } from "./assignment";
-import { UserPreview } from "./user";
+import { User, UserPreview } from "./user";
 import { Classroom as ClassroomPrisma } from "@prisma/client";
 
 export type Classroom = {
   id: string;
   name: string;
+  admin?: UserPreview;
   tags?: string[];
   students?: UserPreview[];
   assignments?: Assignment[];

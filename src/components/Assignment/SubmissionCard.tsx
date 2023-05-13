@@ -31,7 +31,7 @@ export default function SubmissionCard(props: {
         setValues(res.submission.work);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [assignmentId]);
 
   const handleAdd = (work: string) => {
     setValues((p) => [...p, work]);

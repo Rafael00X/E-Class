@@ -12,6 +12,7 @@ import AddIcon from "@mui/icons-material/Add";
 import AddAssignmentForm from "@/components/Form/AddAssignmentForm";
 import Modal from "@/components/UI/Modal";
 import { createAssignment } from "@/modules/fetch";
+import { useUserContext } from "@/contexts/UserContext";
 
 type AssignmentPageProps = {
   classroom: Classroom;
@@ -127,6 +128,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     name: result.name,
     id: result.id,
     tags: result.tags,
+    admin: userPreviewMapper(result.admin),
     students: result.students,
     assignments: result.assignments.map((a) => {
       const assignment = assignmentMapper(a);
@@ -145,6 +147,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 function CreateAssignment(props: { classroom: Classroom }) {
   const { classroom } = props;
   const [isOpen, setIsOpen] = useState(false);
+  const user = useUserContext()?.user;
+
+  if (user?.id !== classroom.admin?.id) return null;
+
   const handleAdd = (values: {
     name: string;
     desc: string;

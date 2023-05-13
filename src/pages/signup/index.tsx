@@ -1,8 +1,6 @@
 import LoginForm from "@/components/Signup/LoginForm";
 import RegisterForm from "@/components/Signup/RegisterForm";
-import Button from "@/components/UI/Button";
-// import Card from "@/components/UI/Card";
-import { Card } from "@mui/material";
+import { Button, Card } from "@mui/material";
 import { useState } from "react";
 
 const style = {
@@ -23,18 +21,14 @@ const SignupPage = () => {
       <br />
       {isLogin && (
         <p>
-          Don't have an account?{" "}
-          <Button type="hlt" onClick={() => setIsLogin(false)}>
-            Register
-          </Button>
+          Don&apos;t have an account?{" "}
+          <Button onClick={() => setIsLogin(false)}>Register</Button>
         </p>
       )}
       {!isLogin && (
         <p>
           Already have an account?{" "}
-          <Button type="hlt" onClick={() => setIsLogin(true)}>
-            Login
-          </Button>
+          <Button onClick={() => setIsLogin(true)}>Login</Button>
         </p>
       )}
     </Card>

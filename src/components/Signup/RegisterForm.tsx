@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-// import InputField from "../UI/InputField";
 import { registerUser } from "@/modules/fetch";
 import { useRouter } from "next/router";
 import { Box, TextField, Button } from "@mui/material";
