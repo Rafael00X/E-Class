@@ -37,6 +37,7 @@ model Classroom {
   studentIds  String[]     @db.ObjectId
   students    User[]       @relation(fields: [studentIds], references: [id], name: "student")
   assignments Assignment[]
+  meets Meet[]
 }
 
 model Assignment {
@@ -63,4 +64,12 @@ model Submission {
   assignment   Assignment @relation(fields: [assignmentId], references: [id])
   
   @@unique([studentId, assignmentId])
+}
+
+model Meet {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  description String
+  url         String
+  classroomId String       @db.ObjectId
+  classroom   Classroom    @relation(fields: [classroomId], references: [id])
 }

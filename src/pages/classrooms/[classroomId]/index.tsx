@@ -34,7 +34,7 @@ export default function ClassroomPage(props: ClassroomProps) {
             {user?.id !== classroom.admin?.id && (
               <AssignmentsPreviewCard assignments={classroom.assignments} />
             )}
-            <RoutinePreviewCard />
+            <RoutinePreviewCard meets={classroom.meets!} />
           </Box>
           <Box sx={{ flexGrow: 1, overflow: "hidden", p: 1 }}>
             <AnnouncementForm classroom={classroom} />
@@ -69,6 +69,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       assignment.submissions = a.submissions;
       return assignment;
     }),
+    meets: result.meets,
   };
   classroom.assignments?.sort((a, b) => getDateDiff(b.createdAt, a.createdAt));
 

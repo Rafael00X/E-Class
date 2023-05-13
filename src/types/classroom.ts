@@ -1,6 +1,6 @@
 import { Assignment } from "./assignment";
 import { User, UserPreview } from "./user";
-import { Classroom as ClassroomPrisma } from "@prisma/client";
+import { Classroom as ClassroomPrisma, Meet } from "@prisma/client";
 
 export type Classroom = {
   id: string;
@@ -9,6 +9,7 @@ export type Classroom = {
   tags?: string[];
   students?: UserPreview[];
   assignments?: Assignment[];
+  meets?: Meet[];
 };
 
 export const classroomMapper = (classroom: ClassroomPrisma) => {

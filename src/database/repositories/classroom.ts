@@ -31,6 +31,7 @@ export const getClassroomById = async (classroomId: string, userId: string) => {
           email: true,
         },
       },
+      meets: true,
     },
   });
 };

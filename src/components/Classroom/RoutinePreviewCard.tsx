@@ -5,6 +5,9 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { Meet } from "@prisma/client";
+import { CardActionArea } from "@mui/material";
+import Link from "next/link";
 
 const bull = (
   <Box
@@ -15,25 +18,40 @@ const bull = (
   </Box>
 );
 
-export default function RoutinePreviewCard() {
+export default function RoutinePreviewCard(props: { meets: Meet[] }) {
+  const { meets } = props;
+
   return (
     <Card variant="outlined" sx={{ minWidth: 250, boxShadow: 3 }}>
       <CardContent>
         <Typography variant="h5" component="div">
           Routine
         </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
+        <hr />
+        {meets.map((meet) => (
+          <MeetLine key={meet.id} meet={meet} />
+        ))}
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small">Add</Button>
+        <Button size="small">Edit</Button>
       </CardActions>
+    </Card>
+  );
+}
+
+function MeetLine(props: { meet: Meet }) {
+  const { meet } = props;
+
+  return (
+    <Card raised={false} sx={{ boxShadow: 0, overflow: "hidden" }}>
+      <CardActionArea sx={{ p: 1 }}>
+        <Link href={meet.url} target="_blank">
+          <Typography variant="body2" noWrap>
+            {bull} {meet.description}
+          </Typography>
+        </Link>
+      </CardActionArea>
     </Card>
   );
 }
