@@ -21,6 +21,7 @@ type ClassroomProps = {
 export default function ClassroomPage(props: ClassroomProps) {
   const { classroom } = props;
   const user = useUserContext()?.user;
+  const isEditable = user?.id === classroom.admin?.id;
 
   if (!classroom) throw new Error("Classroom not found");
   return (
@@ -34,7 +35,11 @@ export default function ClassroomPage(props: ClassroomProps) {
             {user?.id !== classroom.admin?.id && (
               <AssignmentsPreviewCard assignments={classroom.assignments} />
             )}
-            <RoutinePreviewCard meets={classroom.meets!} />
+            <RoutinePreviewCard
+              meets={classroom.meets!}
+              isEditable={isEditable}
+              classroomId={classroom.id}
+            />
           </Box>
           <Box sx={{ flexGrow: 1, overflow: "hidden", p: 1 }}>
             <AnnouncementForm classroom={classroom} />

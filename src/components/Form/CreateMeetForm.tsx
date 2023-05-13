@@ -1,3 +1,4 @@
+import { createMeet } from "@/modules/fetch";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import { ChangeEvent, FormEvent, useState } from "react";
 
@@ -17,8 +18,9 @@ const initialState = {
   url: "",
 };
 
-export default function AddMeetForm(props: {
-  callback: (value: typeof initialState) => void;
+export default function CreateMeetForm(props: {
+  classroomId: string;
+  callback: () => void;
 }) {
   const [values, setValues] = useState(initialState);
 
@@ -30,7 +32,8 @@ export default function AddMeetForm(props: {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    props.callback(values);
+    props.callback();
+    createMeet(values.description, values.url, props.classroomId);
   };
 
   return (
@@ -42,6 +45,7 @@ export default function AddMeetForm(props: {
         <TextField
           label="Description"
           variant="outlined"
+          name="description"
           value={values.description}
           onChange={handleChange}
           fullWidth
@@ -51,6 +55,7 @@ export default function AddMeetForm(props: {
         <TextField
           label="Url"
           variant="outlined"
+          name="url"
           value={values.url}
           onChange={handleChange}
           fullWidth

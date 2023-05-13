@@ -8,6 +8,9 @@ import Typography from "@mui/material/Typography";
 import { Meet } from "@prisma/client";
 import { CardActionArea } from "@mui/material";
 import Link from "next/link";
+import CreateMeetForm from "../Form/CreateMeetForm";
+import Modal from "../UI/Modal";
+import { useState } from "react";
 
 const bull = (
   <Box
@@ -18,8 +21,15 @@ const bull = (
   </Box>
 );
 
-export default function RoutinePreviewCard(props: { meets: Meet[] }) {
-  const { meets } = props;
+export default function RoutinePreviewCard(props: {
+  meets: Meet[];
+  isEditable: boolean;
+  classroomId: string;
+}) {
+  const { meets, isEditable, classroomId } = props;
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
 
   return (
     <Card variant="outlined" sx={{ minWidth: 250, boxShadow: 3 }}>
@@ -32,10 +42,19 @@ export default function RoutinePreviewCard(props: { meets: Meet[] }) {
           <MeetLine key={meet.id} meet={meet} />
         ))}
       </CardContent>
-      <CardActions>
-        <Button size="small">Add</Button>
-        <Button size="small">Edit</Button>
-      </CardActions>
+      {isEditable && (
+        <CardActions>
+          <Button size="small" onClick={() => setOpen(true)}>
+            Add
+          </Button>
+          <Button size="small">Edit</Button>
+        </CardActions>
+      )}
+      <CreateMeetModal
+        open={open}
+        handleClose={handleClose}
+        classroomId={classroomId}
+      />
     </Card>
   );
 }
@@ -53,5 +72,25 @@ function MeetLine(props: { meet: Meet }) {
         </Link>
       </CardActionArea>
     </Card>
+  );
+}
+
+function CreateMeetModal(props: {
+  open: boolean;
+  handleClose: () => void;
+  classroomId: string;
+}) {
+  return (
+    <Modal
+      open={props.open}
+      handleClose={props.handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <CreateMeetForm
+        callback={props.handleClose}
+        classroomId={props.classroomId}
+      />
+    </Modal>
   );
 }
