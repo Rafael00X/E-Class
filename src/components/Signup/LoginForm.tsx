@@ -1,5 +1,5 @@
-import { useState } from "react";
-import InputField from "../UI/InputField";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { Box, TextField, Button } from "@mui/material";
 import { loginUser } from "@/modules/fetch";
 import { useRouter } from "next/router";
 
@@ -11,18 +11,18 @@ const LoginForm = () => {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
   const router = useRouter();
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setValues((prevState) => {
-      return { ...prevState, [event.target.name]: event.target.value };
+      return { ...prevState, [e.target.name]: e.target.value };
     });
-  };
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     loginUser(values.email, values.password)
       .then((data) => {
         console.log(data);
         router.push("/");
-        // Save to context and local-storage / cookie
       })
       .catch((err) => {
         console.log(err);
@@ -40,26 +40,41 @@ const LoginForm = () => {
         }
       });
   };
+
   return (
-    <form onSubmit={onSubmit}>
-      <InputField
-        label="Email"
-        name="email"
-        type="email"
-        value={values.email}
-        error={errors.email}
-        onChange={onChange}
-      />
-      <InputField
-        label="Password"
-        name="password"
-        type="password"
-        value={values.password}
-        error={errors.password}
-        onChange={onChange}
-      />
-      <input type="submit" value="Submit" />
-    </form>
+    <Box>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="Email"
+          type="email"
+          variant="outlined"
+          name="email"
+          value={values.email}
+          onChange={handleChange}
+          fullWidth
+          required
+          error={errors.email !== ""}
+          helperText={errors.email}
+        />
+        <br />
+        <TextField
+          label="Password"
+          type="password"
+          variant="outlined"
+          name="password"
+          value={values.password}
+          onChange={handleChange}
+          fullWidth
+          required
+          error={errors.password !== ""}
+          helperText={errors.password}
+        />
+        <br />
+        <Button type="submit" variant="contained" fullWidth sx={{ mt: 4 }}>
+          Submit
+        </Button>
+      </form>
+    </Box>
   );
 };
 

@@ -118,7 +118,11 @@ export default function AssignmentsPage(props: AssignmentPageProps) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const classroomId = context.params?.classroomId as string;
-  const result = await classroomRepository.getClassroomById(classroomId);
+  const userId = context.req.headers["user_id"] as string;
+  const result = await classroomRepository.getClassroomById(
+    classroomId,
+    userId
+  );
   const classroom: Classroom = {
     name: result.name,
     id: result.id,
