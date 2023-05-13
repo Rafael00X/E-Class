@@ -12,6 +12,7 @@ import AnnouncementForm from "@/components/Classroom/AnnouncementForm";
 import AssignmentsPreviewCard from "@/components/Classroom/AssignmentsPreviewCard";
 import { getDateDiff } from "@/utils/dateHelper";
 import React from "react";
+import { useUserContext } from "@/contexts/UserContext";
 
 type ClassroomProps = {
   classroom: Classroom;
@@ -19,7 +20,10 @@ type ClassroomProps = {
 
 export default function ClassroomPage(props: ClassroomProps) {
   const { classroom } = props;
+  const user = useUserContext()?.user;
+  console.log(user);
   console.log(classroom);
+
   if (!classroom) throw new Error("Classroom not found");
   return (
     <ClassroomLayout title={classroom.name} classroomId={classroom.id}>
@@ -29,7 +33,9 @@ export default function ClassroomPage(props: ClassroomProps) {
         </Box>
         <Box sx={{ display: "flex" }}>
           <Box sx={{ mr: "20px", p: 1, display: { xs: "none", md: "block" } }}>
-            <AssignmentsPreviewCard assignments={classroom.assignments} />
+            {user?.id !== classroom.admin?.id && (
+              <AssignmentsPreviewCard assignments={classroom.assignments} />
+            )}
             <RoutinePreviewCard />
           </Box>
           <Box sx={{ flexGrow: 1, overflow: "hidden", p: 1 }}>
@@ -57,6 +63,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const classroom: Classroom = {
     name: result.name,
     id: result.id,
+    admin: userPreviewMapper(result.admin),
     students: result.students,
     assignments: result.assignments.map((a) => {
       const assignment = assignmentMapper(a);

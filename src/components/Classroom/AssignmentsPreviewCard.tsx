@@ -39,6 +39,7 @@ export default function AssignmentsPreviewCard(props: {
     .sort((a, b) => getDateDiff(a.closedAt!, b.closedAt!))
     .slice(0, 5);
   let curdate = "";
+
   return (
     <Card variant="outlined" sx={{ width: 320, mb: 5, boxShadow: 3 }}>
       <CardContent>
@@ -67,9 +68,6 @@ export default function AssignmentsPreviewCard(props: {
             );
           })}
       </CardContent>
-      <CardActions>
-        <Button size="small">View all</Button>
-      </CardActions>
     </Card>
   );
 }
