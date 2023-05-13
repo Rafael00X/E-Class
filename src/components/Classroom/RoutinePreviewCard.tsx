@@ -34,6 +34,12 @@ export default function RoutinePreviewCard(props: {
   const [isDeletable, setIsDeletable] = useState(false);
 
   const handleClose = () => setOpen(false);
+  const handleCallback = (meet: Meet) => {
+    setMeets((p) => {
+      return [...p, meet];
+    });
+    handleClose();
+  };
 
   const handleRemove = (meet: Meet) => {
     deleteMeet(meet.id);
@@ -76,6 +82,7 @@ export default function RoutinePreviewCard(props: {
       <CreateMeetModal
         open={open}
         handleClose={handleClose}
+        handleCallback={handleCallback}
         classroomId={classroomId}
       />
     </Card>
@@ -94,25 +101,20 @@ function MeetLine(props: {
       elevation={0}
       sx={{
         p: 1,
+        alignItems: "center",
+        display: "flex",
+        justifyContent: "space-between",
+        width: "250px",
       }}
     >
-      <Box
-        sx={{
-          alignItems: "center",
-          display: "flex",
-          justifyContent: "space-between",
-          overflow: "hidden",
-        }}
-      >
-        <Link href={meet.url} target="_blank">
-          <Typography noWrap>{meet.description}</Typography>
-        </Link>
-        {isDeletable && (
-          <IconButton onClick={() => handleRemove(meet)}>
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        )}
-      </Box>
+      <a href={meet.url} target="_blank" style={{ overflow: "hidden" }}>
+        <Typography noWrap>{meet.description}</Typography>
+      </a>
+      {isDeletable && (
+        <IconButton onClick={() => handleRemove(meet)}>
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      )}
     </Card>
   );
 
@@ -138,6 +140,7 @@ function MeetLine(props: {
 function CreateMeetModal(props: {
   open: boolean;
   handleClose: () => void;
+  handleCallback: (meet: Meet) => void;
   classroomId: string;
 }) {
   return (
@@ -148,7 +151,7 @@ function CreateMeetModal(props: {
       aria-describedby="modal-modal-description"
     >
       <CreateMeetForm
-        callback={props.handleClose}
+        callback={props.handleCallback}
         classroomId={props.classroomId}
       />
     </Modal>

@@ -8,7 +8,6 @@ import ClassroomLayout from "@/components/Layout/ClassroomLayout";
 import { Box, Card, CardMedia } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import RoutinePreviewCard from "@/components/Classroom/RoutinePreviewCard";
-import AnnouncementForm from "@/components/Classroom/AnnouncementForm";
 import AssignmentsPreviewCard from "@/components/Classroom/AssignmentsPreviewCard";
 import { getDateDiff } from "@/utils/dateHelper";
 import React from "react";
@@ -42,8 +41,6 @@ export default function ClassroomPage(props: ClassroomProps) {
             />
           </Box>
           <Box sx={{ flexGrow: 1, overflow: "hidden", p: 1 }}>
-            <AnnouncementForm classroom={classroom} />
-            <br />
             {classroom.assignments?.map((assignment) => {
               return (
                 <React.Fragment key={assignment.id}>

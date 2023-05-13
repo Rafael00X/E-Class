@@ -1,5 +1,6 @@
 import { createMeet } from "@/modules/fetch";
 import { Box, Typography, TextField, Button } from "@mui/material";
+import { Meet } from "@prisma/client";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 const style = {
@@ -20,7 +21,7 @@ const initialState = {
 
 export default function CreateMeetForm(props: {
   classroomId: string;
-  callback: () => void;
+  callback: (meet: Meet) => void;
 }) {
   const [values, setValues] = useState(initialState);
 
@@ -32,8 +33,11 @@ export default function CreateMeetForm(props: {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    props.callback();
-    createMeet(values.description, values.url, props.classroomId);
+    createMeet(values.description, values.url, props.classroomId).then(
+      (data) => {
+        props.callback(data.meet);
+      }
+    );
   };
 
   return (
