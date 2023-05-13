@@ -10,18 +10,10 @@ type AssignmentLayoutProps = {
 };
 
 const AssignmentLayout = (props: AssignmentLayoutProps) => {
-  const { title, assignmentId, classroomId, children } = props;
+  const { title, classroomId, children } = props;
   const classUrl = `/classrooms/${classroomId}`;
-  const tabs = [
-    {
-      text: "Instructions",
-      url: `${classUrl}/assignments/${assignmentId}`,
-    },
-    {
-      text: "Progress",
-      url: `${classUrl}/assignments/${assignmentId}/submissions`,
-    },
-  ];
+
+  const tabs: { text: string; url: "string" }[] = [];
   return (
     <>
       <Navbar tabs={tabs} title={title} url={classUrl} />

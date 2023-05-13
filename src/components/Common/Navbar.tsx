@@ -31,8 +31,6 @@ export default function Navbar(props: NavbarProps) {
   const isSmall = useMediaQuery("(max-width:1040px)");
   const user = useUserContext()?.user;
 
-  console.log(user);
-
   const handleOpenNavDrawer = () => {
     setIsOpen(true);
   };

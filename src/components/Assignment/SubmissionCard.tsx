@@ -10,15 +10,18 @@ import {
 import Modal from "../UI/Modal";
 import AddFileForm from "../Form/AddFileForm";
 import IconButton from "@mui/material/IconButton";
+import { useUserContext } from "@/contexts/UserContext";
 
 export default function SubmissionCard(props: {
   assignmentId: string;
   dueDate: string | null;
+  authorId: string;
 }) {
-  const { assignmentId, dueDate } = props;
+  const { assignmentId, dueDate, authorId } = props;
   const [values, setValues] = useState<string[]>([]);
   const [submission, setSubmission] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const user = useUserContext()?.user;
 
   const isMissing = !!dueDate && new Date(dueDate) < new Date() && !submission;
   const isSubmitted = !!submission;
@@ -32,6 +35,8 @@ export default function SubmissionCard(props: {
       })
       .catch((err) => console.log(err));
   }, [assignmentId]);
+
+  if (user?.id === authorId) return null;
 
   const handleAdd = (work: string) => {
     setValues((p) => [...p, work]);

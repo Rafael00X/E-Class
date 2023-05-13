@@ -138,6 +138,7 @@ export default function AssignmentPage(props: AssignmentProps) {
           <SubmissionCard
             assignmentId={assignment.id}
             dueDate={assignment.closedAt}
+            authorId={assignment.author!.id}
           />
         </Box>
       </Box>

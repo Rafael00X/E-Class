@@ -21,8 +21,6 @@ type ClassroomProps = {
 export default function ClassroomPage(props: ClassroomProps) {
   const { classroom } = props;
   const user = useUserContext()?.user;
-  console.log(user);
-  console.log(classroom);
 
   if (!classroom) throw new Error("Classroom not found");
   return (

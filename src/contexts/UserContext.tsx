@@ -28,7 +28,6 @@ export const UserProvider = (props: UserProviderProps) => {
   const login = (user: User) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
     setUser(user);
-    console.log(user);
   };
 
   const logout = () => {
