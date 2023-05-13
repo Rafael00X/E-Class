@@ -19,7 +19,7 @@ export const createMeet = async (
 };
 
 export const deleteMeet = async (id: string) => {
-  return await prisma.assignment.delete({
+  return await prisma.meet.delete({
     where: {
       id,
     },

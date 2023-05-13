@@ -6,11 +6,13 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Meet } from "@prisma/client";
-import { CardActionArea } from "@mui/material";
+import { CardActionArea, IconButton } from "@mui/material";
 import Link from "next/link";
 import CreateMeetForm from "../Form/CreateMeetForm";
 import Modal from "../UI/Modal";
 import { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { deleteMeet } from "@/modules/fetch";
 
 const bull = (
   <Box
@@ -26,10 +28,17 @@ export default function RoutinePreviewCard(props: {
   isEditable: boolean;
   classroomId: string;
 }) {
-  const { meets, isEditable, classroomId } = props;
+  const { isEditable, classroomId } = props;
+  const [meets, setMeets] = useState(props.meets);
   const [open, setOpen] = useState(false);
+  const [isDeletable, setIsDeletable] = useState(false);
 
   const handleClose = () => setOpen(false);
+
+  const handleRemove = (meet: Meet) => {
+    deleteMeet(meet.id);
+    setMeets((p) => p.filter((m) => m.id !== meet.id));
+  };
 
   return (
     <Card variant="outlined" sx={{ minWidth: 250, boxShadow: 3 }}>
@@ -39,15 +48,29 @@ export default function RoutinePreviewCard(props: {
         </Typography>
         <hr />
         {meets.map((meet) => (
-          <MeetLine key={meet.id} meet={meet} />
+          <MeetLine
+            key={meet.id}
+            meet={meet}
+            isDeletable={isDeletable}
+            handleRemove={handleRemove}
+          />
         ))}
       </CardContent>
-      {isEditable && (
+      {isEditable && !isDeletable && (
         <CardActions>
           <Button size="small" onClick={() => setOpen(true)}>
             Add
           </Button>
-          <Button size="small">Edit</Button>
+          <Button size="small" onClick={() => setIsDeletable(true)}>
+            Edit
+          </Button>
+        </CardActions>
+      )}
+      {isEditable && isDeletable && (
+        <CardActions>
+          <Button size="small" onClick={() => setIsDeletable(false)}>
+            Done
+          </Button>
         </CardActions>
       )}
       <CreateMeetModal
@@ -59,20 +82,57 @@ export default function RoutinePreviewCard(props: {
   );
 }
 
-function MeetLine(props: { meet: Meet }) {
-  const { meet } = props;
+function MeetLine(props: {
+  meet: Meet;
+  isDeletable: boolean;
+  handleRemove: (meet: Meet) => void;
+}) {
+  const { meet, isDeletable, handleRemove } = props;
 
   return (
-    <Card raised={false} sx={{ boxShadow: 0, overflow: "hidden" }}>
-      <CardActionArea sx={{ p: 1 }}>
+    <Card
+      elevation={0}
+      sx={{
+        p: 1,
+      }}
+    >
+      <Box
+        sx={{
+          alignItems: "center",
+          display: "flex",
+          justifyContent: "space-between",
+          overflow: "hidden",
+        }}
+      >
         <Link href={meet.url} target="_blank">
-          <Typography variant="body2" noWrap>
-            {bull} {meet.description}
-          </Typography>
+          <Typography noWrap>{meet.description}</Typography>
         </Link>
-      </CardActionArea>
+        {isDeletable && (
+          <IconButton onClick={() => handleRemove(meet)}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        )}
+      </Box>
     </Card>
   );
+
+  // return (
+  //   <Card raised={false} sx={{ boxShadow: 0, overflow: "hidden" }}>
+  //     <CardActionArea sx={{ p: 1 }}>
+  //       <Link href={meet.url} target="_blank">
+  //       <Typography noWrap>{work}</Typography>
+  //     {isEditable && (
+  //       <IconButton onClick={() => handleRemove(work)}>
+  //         <CloseIcon fontSize="small" />
+  //       </IconButton>
+  //     )}
+  //         {/* <Typography variant="body2" noWrap>
+  //           {bull} {meet.description}
+  //         </Typography> */}
+  //       </Link>
+  //     </CardActionArea>
+  //   </Card>
+  // );
 }
 
 function CreateMeetModal(props: {
