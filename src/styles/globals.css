@@ -11,3 +11,7 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+.MuiInputBase-root {
+  margin-bottom: 15px;
+}

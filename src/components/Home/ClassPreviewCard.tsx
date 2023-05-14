@@ -34,12 +34,6 @@ export default function ClassPreviewCard(props: ClassPreviewCardProps) {
           species, ranging across all continents except Antarctica
         </Typography>
       </CardContent>
-
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-      </CardActions>
     </Card>
   );
 }

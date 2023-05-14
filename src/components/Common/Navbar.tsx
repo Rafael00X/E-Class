@@ -119,7 +119,7 @@ function Logo() {
           letterSpacing: ".3rem",
         }}
       >
-        E-CLASS
+        EduPlat
       </Typography>
     </Box>
   );
